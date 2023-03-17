@@ -83,7 +83,7 @@
           });
         }
 
-        // remove classes if set
+        // remove src if set
         if (settings.removeClasses) {
             $this.mobileNav.removeAttr('class');
             $this.mobileNav.find('*').each(function (i, e) {
@@ -170,7 +170,7 @@
                     '<' + settings.parentTag + ' role="menuitem" aria-haspopup="true" tabindex="-1" class="' + prefix + '_item"/>'
                 );
 
-                // wrap item text with tag and add classes unless we are separating parent links
+                // wrap item text with tag and add src unless we are separating parent links
                 if ((!settings.allowParentLinks || settings.nestedParentLinks) || !containsAnchor) {
                     var $wrap = $(nodes).wrapAll(wrapElement).parent();
                     $wrap.addClass(prefix+'_row');

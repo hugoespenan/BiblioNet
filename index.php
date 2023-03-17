@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -135,6 +136,11 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
+=======
+<?php
+include("head.php");
+?>
+>>>>>>> 179d7a8a5fc840acaf08be30ead5e3caff1f0583
                             <li class="active"><a href="index.php">Home</a></li>
                             <li><a href="shop-grid.php">Shop</a></li>
                             <li><a href="#">Pages</a>
@@ -142,10 +148,8 @@
                                     <li><a href="recherche.php">Shop Details</a></li>
                                     <li><a href="shoping-cart.php">Shoping Cart</a></li>
                                     <li><a href="checkout.php">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Blog</a></li>
                             <li><a href="contact.php">Contact</a></li>
                         </ul>
                     </nav>

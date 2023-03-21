@@ -14,16 +14,8 @@ class Inscrit
     private $id;
 
 
-    public function __construct($nom, $prenom, $email, $mdp, $tel_portable, $rue, $cp, $ville)
+    public function __construct()
     {
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->email = $email;
-        $this->mdp = $mdp;
-        $this->tel_portable = $tel_portable;
-        $this->rue = $rue;
-        $this->cp = $cp;
-        $this->ville = $ville;
     }
 
 

@@ -17,7 +17,7 @@ if(!empty($_POST['nom']) AND
     !empty($_POST['ville'])
 ){
 
-    $inscrit= new Inscrit($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['telephone'],$_POST['rue'],$_POST['cp'], $_POST['ville']);
+    $inscrit= new Inscrit();
     try
     {
         if(1)
@@ -35,8 +35,7 @@ if(!empty($_POST['nom']) AND
     }
 }
 
-var_dump($_POST);
-var_dump($inscrit);
+
 ?>
 
 

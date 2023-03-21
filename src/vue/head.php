@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -26,21 +30,6 @@
 <body>
 
 
-<div class="humberger__menu__overlay"></div>
-<div class="humberger__menu__wrapper">
-    <div class="humberger__menu__logo">
-        <a href="#"><img src="img/BiblioNet-removebg-preview.png" alt=""></a>
-    </div>
-
-    <div class="humberger__menu__widget">
-        <div class="header__top__right__auth">
-            <a href="#"><i class="fa fa-user"></i> Login</a>
-        </div>
-    </div>
-</div>
-
-
-
 <header class="header">
     <div class="header__top">
         <div class="container">
@@ -50,13 +39,38 @@
                 <div class="col-lg-6">
                     <div class="header__top__right">
                         <div class="header__top__right__auth">
-                            <form method="post" action="" >
-                                <input type="text" name="email" placeholder="Adresse-mail" required />
-                                <input type="password" name="pwd" placeholder="Mot de Passe" required />
+
+                            <?php
+                            if(!$_SESSION['connecter']){
+                            ?>
+                            <form method="post" action="">
+                                <input type="text" name="email" placeholder="Adresse-mail" required/>
+                                <input type="password" name="pwd" placeholder="Mot de Passe" required/>
                                 <input type="submit" value="Se connecter"/>
                             </form>
+                                <?php
+                            }else
+                            {
+                            ?>
                         </div>
                     </div>
+
+                    <div class="col-lg-7">
+                    </div>
+                    <div class="col-lg-5">
+                        <ul class="nav nav-pills">
+                            <li  class="active"><a href="#" >Profile</a></li>
+                            <li><a href="/index.php?d=true" >Deconnecter</a></li>
+
+                        </ul>
+
+                    </div>
+
+                    <?php
+
+                    }
+
+                    ?>
                 </div>
             </div>
         </div>
@@ -65,7 +79,9 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="./index.php"><img src="img/BiblioNet-removebg-preview.png" alt=""></a>
+                    <a href="/index.php">
+                        <img src="assets/img/BiblioNet.png" alt="">
+                    </a>
                 </div>
             </div>
             <div class="col-lg-6">

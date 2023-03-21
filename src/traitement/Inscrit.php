@@ -1,28 +1,31 @@
 <?php
 require_once __DIR__ . '/../bdd/bdd.php';
+
 class Inscrit
 {
-    protected $nom;
-    protected $prenom;
-    protected $email;
-    protected $mdp;
-    protected $tel_fixe;
-    protected $tel_portable;
-    protected $rue;
-    protected $cp;
-    protected $ville;
+    private $nom;
+    private $prenom;
+    private $email;
+    private $mdp;
+    private $tel_portable;
+    private $rue;
+    private $cp;
+    private $ville;
+    private $id;
 
-    public function construct($nom,$prenom,$email,$mdp,$tel_fixe,$tel_portable,$rue,$cp,$ville){
-        $this->nom=$nom;
-        $this->prenom=$prenom;
-        $this->email=$email;
-        $this->mdp=$mdp;
-        $this->tel_fixe=$tel_fixe;
-        $this->tel_portable=$tel_portable;
-        $this->rue=$rue;
-        $this->cp=$cp;
-        $this->ville=$ville;
+
+    public function __construct($nom, $prenom, $email, $mdp, $tel_portable, $rue, $cp, $ville)
+    {
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->email = $email;
+        $this->mdp = $mdp;
+        $this->tel_portable = $tel_portable;
+        $this->rue = $rue;
+        $this->cp = $cp;
+        $this->ville = $ville;
     }
+
 
     public function connexion($email, $mdp)
     {
@@ -30,14 +33,58 @@ class Inscrit
         $c = $cobdd->b->prepare("SELECT * FROM inscrit WHERE email = :email and mdp = :mdp");
         $c->execute(array('email' => $email, 'mdp' => $mdp));
         $resultat = $c->fetchAll();
+
         if (!empty($resultat)) {
             foreach ($resultat as $item) {
-                $this->setId($item['id_utilisateur']);
+                $this->setId($item['id_inscrit']);
             }
-        } else {
+        }
+        else {
             header("Location: index.php");
         }
     }
+
+
+
+    public function inscription($nom, $prenom, $email, $mdp, $tel_portable, $rue, $cp, $ville)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $dist = $cobdd->b->prepare("SELECT * FROM inscrit WHERE email = :email");
+        $dist->execute(array('email' => $email));
+        $res = $dist->fetchAll();
+        if (empty($res)) {
+            $c = $cobdd->b->prepare("INSERT INTO inscrit (nom, prenom, email, mdp, tel_portable, rue, cp, ville) VALUES (:nom, :prenom, :email, :mdp, :tel_portable, :rue, :cp, :ville)");
+            $c->execute(array(
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'email' => $email,
+                'mdp' => $mdp,
+                'tel_portable' => $tel_portable,
+                'rue' => $rue,
+                'cp' => $cp,
+                'ville' => $ville,
+                ));
+
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+
 
     /**
      * @return mixed

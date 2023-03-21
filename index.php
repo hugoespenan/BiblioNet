@@ -1,41 +1,40 @@
 <?php
 include("src/vue/head.php");
-require_once ("src/traitement/Inscrit.php");
+require_once("src/traitement/Inscrit.php");
+require_once 'src/traitement/AuteurController.php';
 
 
-
-if(isset($_SESSION['connecter'])){
-    if(isset($_GET['d'])){
+if (isset($_SESSION['connecter'])) {
+    if (isset($_GET['d'])) {
         session_destroy();
-        $_SESSION['connecter']=false;
+        $_SESSION['connecter'] = false;
     }
 }
 
-if(!isset($_SESSION['connecter']))
-    $_SESSION['connecter']=false;
+if (!isset($_SESSION['connecter']))
+    $_SESSION['connecter'] = false;
 
 
-if(!empty($_POST['email']) AND !empty($_POST['pwd']))
-{
-    $inscrit1 =new Inscrit();
+if (!empty($_POST['email']) and !empty($_POST['pwd'])) {
+    $inscrit1 = new Inscrit();
 
-    if($inscrit=$inscrit1->connexion($_POST['email'],$_POST['mdp'])){
+    if ($inscrit = $inscrit1->connexion($_POST['email'], $_POST['mdp'])) {
 
-        $_SESSION['connecter']=true;
+        $_SESSION['connecter'] = true;
         foreach ($inscrit as $client_connecter) {
 
-            $_SESSION['id_client']=$client_connecter['id_client'];
-            $_SESSION['nom']=$client_connecter['nom'];
-            $_SESSION['prenom']=$client_connecter['prenom'];
-            $_SESSION['email']=$client_connecter['email'];
-            $_SESSION['telephone']=$client_connecter['telephone'];
-            $_SESSION['adresse']=$client_connecter['adresse'];
-            $_SESSION['mdp']=$client_connecter['mdp'];
-            $_SESSION['cp']=$client_connecter['cp'];
-            $_SESSION['ville']=$client_connecter['ville'];
+            $_SESSION['id_client'] = $client_connecter['id_client'];
+            $_SESSION['nom'] = $client_connecter['nom'];
+            $_SESSION['prenom'] = $client_connecter['prenom'];
+            $_SESSION['email'] = $client_connecter['email'];
+            $_SESSION['telephone'] = $client_connecter['telephone'];
+            $_SESSION['adresse'] = $client_connecter['adresse'];
+            $_SESSION['mdp'] = $client_connecter['mdp'];
+            $_SESSION['cp'] = $client_connecter['cp'];
+            $_SESSION['ville'] = $client_connecter['ville'];
         }
 
-    }else{
+    } else {
 
         ?>
         <script type="text/javascript"> window.alert('email ou mot de passe incorrect! ');</script>
@@ -50,7 +49,7 @@ if(!empty($_POST['email']) AND !empty($_POST['pwd']))
 <li class="active"><a href="/index.php">Acceuil</a></li>
 <?php
 
-if(!$_SESSION['connecter']){//si connecter il n,affiche pas else il affiche
+if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
     ?>
     <li><a href="inscription.php">Inscription</a></li>
     <?php
@@ -76,15 +75,22 @@ if(!$_SESSION['connecter']){//si connecter il n,affiche pas else il affiche
                         <span>Auteurs</span>
                     </div>
                     <ul>
-                        <li><a href="">Victor Hugo</a></li>
-                        <li><a href="#">Jean-Paul Sartre</a></li>
-                        <li><a href="#">Sébastien Lemoine</a></li>
-                        <li><a href="#">Emile Zola</a></li>
-                        <li><a href="#">Jules Verne</a></li>
-                        <li><a href="#">Guy De Maupassant</a></li>
-                        <li><a href="#">Albert Camus</a></li>
-                        <li><a href="#">Adolf Hitler</a></li>
-                        <li><a href="#">Echiiro Oda</a></li>
+                        <?php
+                        $filtre = "";
+                        $auteurcontr = new AuteurController();
+                        foreach ($auteurcontr->afficherAuteurs() as $item) {
+                            ?>
+                            <li>
+                                <a href="index.php?filtre=<?php echo $item['nom'] ?>"><?php echo $item['prenom'] . " " . $item['nom'] ?></a>
+                            </li>
+                            <?php
+                            if (isset($_GET['filtre'])) {
+                                if ($_GET['filtre'] == $item['nom']) {
+                                    $filtre = $item['nom'];
+                                }
+                            }
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -187,6 +193,40 @@ if(!$_SESSION['connecter']){//si connecter il n,affiche pas else il affiche
         </div>
     </div>
 </section>
+<section class="categories">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Livre de <?php echo $filtre ?> : </h2>
+                </div>
+            </div>
+            <div class="categories__slider owl-carousel">
+                <?php
+                foreach ($auteurcontr->getLivreByAuteur($auteurcontr->getIdAuteurByName($filtre)) as $item) {
+                    ?>
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="<?php header("Content-type: image/jpg");
+                        echo $item['image'] ?>"></div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="featured__item">
+            <div class="featured__item__pic set-bg" data-setbg="assets/img/featured/folio.jpg">
+            </div>
+            <div class="featured__item__text">
+                <h6><a href="#">Folio Classique</a></h6>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
 <!-- Featured Section End -->
 
 <!-- Js Plugins -->

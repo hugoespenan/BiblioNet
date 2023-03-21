@@ -65,7 +65,6 @@ session_start();
                         </ul>
 
                     </div>
-
                     <?php
 
                     }

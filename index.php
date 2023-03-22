@@ -2,66 +2,44 @@
 include("src/vue/head.php");
 require_once("src/traitement/Inscrit.php");
 require_once 'src/traitement/AuteurController.php';
-
-
-if (isset($_SESSION['connecter'])) {
-    if (isset($_GET['d'])) {
-        session_destroy();
-        $_SESSION['connecter'] = false;
-    }
-}
-
-if (!isset($_SESSION['connecter']))
-    $_SESSION['connecter'] = false;
-
-
-if (!empty($_POST['email']) and !empty($_POST['pwd'])) {
-    $inscrit1 = new Inscrit();
-
-    if ($inscrit = $inscrit1->connexion($_POST['email'], $_POST['mdp'])) {
-
-        $_SESSION['connecter'] = true;
-        foreach ($inscrit as $client_connecter) {
-
-            $_SESSION['id_client'] = $client_connecter['id_client'];
-            $_SESSION['nom'] = $client_connecter['nom'];
-            $_SESSION['prenom'] = $client_connecter['prenom'];
-            $_SESSION['email'] = $client_connecter['email'];
-            $_SESSION['telephone'] = $client_connecter['telephone'];
-            $_SESSION['adresse'] = $client_connecter['adresse'];
-            $_SESSION['mdp'] = $client_connecter['mdp'];
-            $_SESSION['cp'] = $client_connecter['cp'];
-            $_SESSION['ville'] = $client_connecter['ville'];
-        }
-
-    } else {
-
-        ?>
-        <script type="text/javascript"> window.alert('email ou mot de passe incorrect! ');</script>
-        <?php
-
-    }
-}
-
+include("src/vue/login.php");
+include ("src/vue/header.php");
 ?>
 
+<body>
 
-<li class="active"><a href="/index.php">Acceuil</a></li>
-<?php
 
-if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
-    ?>
-    <li><a href="inscription.php">Inscription</a></li>
-    <?php
-}
-?>
-<li><a href="contact.php">Réglement</a></li>
-<li><a href="contact.php">Bibliotèque</a></li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__logo">
+                    <a href="/index.php">
+                        <img src="assets/img/BiblioNet.png" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+
+
+                        <li class="active"><a href="index.php">Acceuil</a></li>
+                        <?php
+
+                        if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
+                            ?>
+                            <li><a href="inscription.php">Inscription</a></li>
+                            <?php
+                        }
+                        ?>
+                        <li><a href="contact.php">Réglement</a></li>
+                        <li><a href="contact.php">Bibliotèque</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 </header>
 
 

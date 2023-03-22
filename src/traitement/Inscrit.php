@@ -22,19 +22,30 @@ class Inscrit
     public function connexion($email, $mdp)
     {
         $cobdd = new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("SELECT * FROM inscrit WHERE email = :email and mdp = :mdp");
-        $c->execute(array('email' => $email, 'mdp' => $mdp));
-        $resultat = $c->fetchAll();
+        $c = $cobdd->b->prepare("SELECT * FROM inscrit WHERE email = :email AND mdp = :pwd");
+        $c->execute(array('email' => $email, 'pwd' => $mdp));
+        if($data = $c->fetch()){
+            $inscrit[] = $data;
+            return $inscrit;
+        }else{
+            return false;
+        }
+    }
+
+
+        /*$resultat = $c->fetchAll();
 
         if (!empty($resultat)) {
             foreach ($resultat as $item) {
                 $this->setId($item['id_inscrit']);
             }
+
+            echo "BRAVO";
         }
         else {
-            header("Location: index.php");
+            echo "caca";
         }
-    }
+    }*/
 
 
 

@@ -27,7 +27,7 @@ include ("src/vue/header.php");
                         <li class="active"><a href="index.php">Acceuil</a></li>
                         <?php
 
-                        if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
+                        if (!$_SESSION['connecter']) {
                             ?>
                             <li><a href="inscription.php">Inscription</a></li>
                             <?php

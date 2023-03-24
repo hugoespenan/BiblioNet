@@ -28,7 +28,7 @@ if(!empty($_POST['nom']) AND
         }
         else
         {
-            throw new Exception("Un probleme s'est produit lors de votre inscription!!! Merci de ressayer plus tard");
+            throw new Exception("Un problème est survenu lors de votre inscription !");
         }
     }
     catch(Exception $e)
@@ -53,6 +53,7 @@ if(!empty($_POST['nom']) AND
 <body>
 
 
+
 <div class="container">
     <div class="row">
         <div class="col-lg-3">
@@ -67,12 +68,12 @@ if(!empty($_POST['nom']) AND
                 <ul>
 
 
-                    <li class="active"><a href="index.php">Acceuil</a></li>
+                    <li><a href="index.php">Acceuil</a></li>
                     <?php
 
                     if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
                         ?>
-                        <li><a href="inscription.php">Inscription</a></li>
+                        <li class="active"><a href="inscription.php">Inscription</a></li>
                         <?php
                     }
                     ?>
@@ -84,7 +85,7 @@ if(!empty($_POST['nom']) AND
     </div>
 </div>
 
-
+<div class="container">
 <div class="row">
     <div class="col-lg-12">
 
@@ -147,9 +148,9 @@ if(!empty($_POST['nom']) AND
                 </fieldset>
             </div>
         </div>
-
     </div>
 </div>
+    </div>
 </body>
 </html>
 

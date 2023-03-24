@@ -3,10 +3,11 @@ include("src/vue/head.php");
 require_once("src/traitement/Inscrit.php");
 require_once 'src/traitement/AuteurController.php';
 include("src/vue/login.php");
-include ("src/vue/header.php");
+include("src/vue/header.php");
+$bh = 0;
 ?>
 
-<body>
+<body xmlns="http://www.w3.org/1999/html">
 
 
 <header class="header">
@@ -59,12 +60,13 @@ include ("src/vue/header.php");
                         foreach ($auteurcontr->afficherAuteurs() as $item) {
                             ?>
                             <li>
-                                <a href="index.php?filtre=<?php echo $item['nom'] ?>"><?php echo $item['prenom'] . " " . $item['nom'] ?></a>
+                                <a href="index.php?filtre=<?php echo $item['nom'] ?>#ancre"><?php echo $item['prenom'] . " " . $item['nom'] ?></a>
                             </li>
                             <?php
                             if (isset($_GET['filtre'])) {
                                 if ($_GET['filtre'] == $item['nom']) {
                                     $filtre = $item['nom'];
+                                    $bh = 1;
                                 }
                             }
                         }
@@ -96,96 +98,27 @@ include ("src/vue/header.php");
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title">
-                    <h2>Livres Populaires</h2>
-                </div>
-            </div>
-            <div class="categories__slider owl-carousel">
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="assets/img/categories/livre1.jpg"></div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="assets/img/categories/livre2.jpg"></div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="assets/img/categories/livre3.jpg"></div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="assets/img/categories/livre4.jpg"></div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="assets/img/categories/livre5.jpg"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Categories Section End -->
-
-<!-- Featured Section Begin -->
-<section class="featured spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title">
-                    <h2>Editions</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row featured__filter">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="assets/img/featured/gallimard.jpg">
-                    </div>
-                    <div class="featured__item__text">
-                        <h6><a href="#">Gallimard</a></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="assets/img/featured/pocket.jpg">
-                    </div>
-                    <div class="featured__item__text">
-                        <h6><a href="#">Pocket</a></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="assets/img/featured/lldp.jpg">
-                    </div>
-                    <div class="featured__item__text">
-                        <h6><a href="#">Le Livre de Poche</a></h6>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="assets/img/featured/folio.jpg">
-                    </div>
-                    <div class="featured__item__text">
-                        <h6><a href="#">Folio Classique</a></h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="categories">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title">
-                    <h2>Livre de <?php echo $filtre ?> : </h2>
+                    <h2>Nos livres</h2>
                 </div>
             </div>
             <div class="categories__slider owl-carousel">
                 <?php
-                foreach ($auteurcontr->getLivreByAuteur($auteurcontr->getIdAuteurByName($filtre)) as $item) {
+                foreach ($auteurcontr->getLivres() as $item2) {
                     ?>
                     <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="<?php header("Content-type: image/jpg");
-                        echo $item['image'] ?>"></div>
+                        <?php $image_blob = base64_encode($item2['image']);
+                        $f2 = "";
+                        ?>
+                        <img onclick="clicked()" src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                        <center><?php echo '<b>' . $item2['titre'] . '</b>'; ?></center>
+                        <script>
+                            function clicked() {
+                                <?php
+                                $_SESSION['titre'] = $item2['titre'];
+                                ?>
+                                document.location.href = "afficherlivre.php";
+                            }
+                        </script>
                     </div>
                     <?php
                 }
@@ -193,17 +126,60 @@ include ("src/vue/header.php");
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-4 col-sm-6">
+    </div>
+    <div id="ancre" class="col-lg-3 col-md-4 col-sm-6">
         <div class="featured__item">
-            <div class="featured__item__pic set-bg" data-setbg="assets/img/featured/folio.jpg">
-            </div>
             <div class="featured__item__text">
-                <h6><a href="#">Folio Classique</a></h6>
+                <h6><a href="#"><br><br><br><br><br><br></a></h6>
             </div>
         </div>
     </div>
     </div>
 </section>
+<br><br><br><br><br>
+<!-- Categories Section End -->
+
+<!-- Featured Section Begin -->
+<?php
+if ($bh == 1) {
+    ?>
+    <section class="categories">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Livre de <?php echo $filtre ?> : </h2>
+                    </div>
+                </div>
+                <div class="categories__slider owl-carousel">
+                    <?php
+                    foreach ($auteurcontr->getLivreByAuteur($auteurcontr->getIdAuteurByName($filtre)) as $item) {
+                        ?>
+                        <div class="col-lg-3">
+                            <?php $image_blob = base64_encode($item['image']);
+                            ?>
+                            <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                            <center><?php echo '<b>' . $item['titre'] . '</b>'; ?></center>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div id="ancre" class="col-lg-3 col-md-4 col-sm-6">
+            <div class="featured__item">
+                <div class="featured__item__text">
+                    <h6><a href="#"><br><br><br><br><br><br></a></h6>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <?php
+}
+?>
 
 <!-- Featured Section End -->
 

@@ -30,7 +30,7 @@ if (!empty($_POST['email']) and !empty($_POST['pwd'])) {
         }
     } else {
         ?>
-        <script type="text/javascript"> window.alert('email ou mot de passe incorrect! ');</script>
+        <script type="text/javascript"> window.alert('Email et ou Mot De Passe Incorrect !');</script>
         <?php
 
     }

@@ -34,8 +34,7 @@ $bh = 0;
                             <?php
                         }
                         ?>
-                        <li><a href="contact.php">Réglement</a></li>
-                        <li><a href="contact.php">Bibliotèque</a></li>
+                        <li><a href="reglement.php">Réglement</a></li>
                     </ul>
                 </nav>
             </div>

@@ -24,11 +24,16 @@ if(!empty($_POST['nom']) AND
     {
         if(1)
         {
-            $inscrit->inscription($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['telephone'],$_POST['rue'],$_POST['cp'], $_POST['ville']);
+            $inscrit->inscription($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['telephone'],$_POST['rue'],$_POST['cp'], $_POST['ville']);?>
+            <script type="text/javascript"> window.alert('Votre compte a ete crée !');</script>
+            <?php
         }
         else
         {
-            throw new Exception("Un problème est survenu lors de votre inscription !");
+            throw new Exception("Un problème est survenu lors de votre inscription !");?>
+            <script type="text/javascript"> window.alert('Erreur!');</script>
+<?php
+
         }
     }
     catch(Exception $e)
@@ -77,8 +82,7 @@ if(!empty($_POST['nom']) AND
                         <?php
                     }
                     ?>
-                    <li><a href="contact.php">Réglement</a></li>
-                    <li><a href="contact.php">Bibliotèque</a></li>
+                    <li><a href="reglement.php">Réglement</a></li>
                 </ul>
             </nav>
         </div>

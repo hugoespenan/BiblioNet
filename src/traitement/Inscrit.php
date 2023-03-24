@@ -33,21 +33,6 @@ class Inscrit
     }
 
 
-        /*$resultat = $c->fetchAll();
-
-        if (!empty($resultat)) {
-            foreach ($resultat as $item) {
-                $this->setId($item['id_inscrit']);
-            }
-
-            echo "BRAVO";
-        }
-        else {
-            echo "caca";
-        }
-    }*/
-
-
 
     public function inscription($nom, $prenom, $email, $mdp, $tel_portable, $rue, $cp, $ville)
     {
@@ -67,7 +52,6 @@ class Inscrit
                 'cp' => $cp,
                 'ville' => $ville,
                 ));
-
         }
     }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 24 mars 2023 à 19:18
+-- Généré le : ven. 24 mars 2023 à 15:53
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -35,14 +35,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `email` varchar(50) NOT NULL,
   `mdp` varchar(50) NOT NULL,
   PRIMARY KEY (`id_admin`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `admin`
---
-
-INSERT INTO `admin` (`id_admin`, `nom`, `prenom`, `email`, `mdp`) VALUES
-(1, 'admin', 'admin', 'admin', 'admin');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -196,21 +189,19 @@ CREATE TABLE IF NOT EXISTS `inscrit` (
   `nom` varchar(50) NOT NULL,
   `prenom` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `mdp` varchar(30) NOT NULL,
   `tel_portable` varchar(15) NOT NULL,
   `rue` varchar(80) NOT NULL,
   `cp` varchar(5) NOT NULL,
   `ville` varchar(50) NOT NULL,
   PRIMARY KEY (`id_inscrit`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `inscrit`
 --
 
-INSERT INTO `inscrit` (`id_inscrit`, `nom`, `prenom`, `email`, `mdp`, `tel_portable`, `rue`, `cp`, `ville`) VALUES
-(1, 'Lemoine', 'Sébastien', 's.lemoine@lprs.fr', '', '33675574985', '5 Avenue du Général de Gaulle', '93440', 'Dugny'),
-(2, 'Kiwi', 'Kiwi', 'kiwi', 'kiwi', '0123456789', '143 RUE DES CITES', '93300', 'AUBERVLIIERS');
+INSERT INTO `inscrit` (`id_inscrit`, `nom`, `prenom`, `email`, `tel_portable`, `rue`, `cp`, `ville`) VALUES
+(1, 'Lemoine', 'Sébastien', 's.lemoine@lprs.fr', '33675574985', '5 Avenue du Général de Gaulle', '93440', 'Dugny');
 
 -- --------------------------------------------------------
 

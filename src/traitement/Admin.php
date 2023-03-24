@@ -12,7 +12,7 @@ class Admin
     public function listerInscrit()
     {
         $cobdd = new bdd ("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->query("SELECT * FROM inscrit ");?>
+        $c = $cobdd->b->query("SELECT * FROM inscrit "); ?>
         <table class="table">
             <thead>
             <tr>
@@ -22,25 +22,33 @@ class Admin
                 <th scope="col">Mot de passe</th>
                 <th scope="col">Téléphone fixe</th>
                 <th scope="col">Adresse</th>
+                <th scope="col">
+                    <button type="button" class="btn btn-success">Crée</button>
+                    <button type="button" class="btn btn-secondary">Modifier</button>
+                    <button type="button" class="btn btn-danger">Supprimer</button>
+                </th>
+
             </tr>
             </thead>
 
+            <?php
+            $cobdd = new bdd("biblionet", "localhost", "", "root");
+            $c = $cobdd->b->query("SELECT * FROM inscrit");
+            $resultats = $c->fetchAll();
+            foreach ($resultats as $resultat) {
+                echo "<tr>";
+                echo "<td>" . $resultat['nom'] . "</td>";
+                echo "<td>" . $resultat['prenom'] . "</td>";
+                echo "<td>" . $resultat['email'] . "</td>";
+                echo "<td>" . $resultat['mdp'] . "</td>";
+                echo "<td>" . $resultat['tel_portable'] . "</td>";
+                echo "<td>" . $resultat['rue'] . " " . $resultat['cp'] . " " . $resultat['ville'] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+
+        </table>
         <?php
-        $cobdd = new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->query("SELECT * FROM inscrit");
-        $resultats = $c->fetchAll();
-        foreach ($resultats as $resultat) {
-            echo "<tr>";
-            echo "<td>" . $resultat['nom'] . "</td>";
-            echo "<td>" . $resultat['prenom'] . "</td>";
-            echo "<td>" . $resultat['email'] . "</td>";
-            echo "<td>" . $resultat['mdp'] . "</td>";
-            echo "<td>" . $resultat['tel_portable'] . "</td>";
-            echo "<td>" . $resultat['rue'] . " ".$resultat['cp']." ".$resultat['ville']. "</td>";
-            echo "</tr>";
-        }
-        ?>
-    </table> <?php
 
     }
 

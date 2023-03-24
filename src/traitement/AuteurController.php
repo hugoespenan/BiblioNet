@@ -30,6 +30,19 @@ class AuteurController
         $res = $requ->fetch();
         return $res['image'];
     }
+    public function getLivreByTitre($titre){
+        $bdd = new bdd("biblionet", "localhost", "", "root");
+        $requ = $bdd->b->prepare("SELECT * FROM livre WHERE titre = :titre");
+        $requ->execute(array('titre' => $titre));
+        $res = $requ->fetch();
+        return $res;
+    }
+    public function getLivres(){
+        $bdd = new bdd("biblionet", "localhost", "", "root");
+        $requ = $bdd->b->query("SELECT * FROM livre");
+        $res = $requ->fetchAll();
+        return $res;
+    }
      public function getNombreLivreByAuteur($id_auteur){
          $bdd = new bdd("biblionet", "localhost", "", "root");
          $requ = $bdd->b->prepare("SELECT COUNT(ref_livre) FROM ecrire WHERE ref_auteur = :id");

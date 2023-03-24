@@ -6,6 +6,7 @@ if (isset($_SESSION['connecter'])) {
     }
 }
 
+
 if (!isset($_SESSION['connecter']))
     $_SESSION['connecter'] = false;
 

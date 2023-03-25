@@ -2,6 +2,7 @@
 include("src/vue/head.php");
 require_once("src/traitement/Inscrit.php");
 require_once 'src/traitement/AuteurController.php';
+require_once 'src/traitement/LivreController.php';
 
 
 if (isset($_SESSION['connecter'])) {
@@ -97,9 +98,9 @@ if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="#">
-                            <input type="text" placeholder="Que cherchez vous ?">
-                            <button type="submit" class="site-btn">RECHERCHER</button>
+                        <form action="index.php" method="post">
+                            <input type="text" name="recherche" placeholder="Quel livre cherchez vous ?">
+                            <button type="submit" name="valider" class="site-btn">RECHERCHER</button>
                         </form>
                     </div>
                 </div>
@@ -111,8 +112,45 @@ if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
     </div>
 </section>
 <!-- Hero Section End -->
-
+<?php
+if (isset($_POST['valider']) and isset($_POST['recherche'])) {
+    ?>
+    <section class="featured spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Résultats de votre recherche</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row featured__filter">
+                <?php
+                $livrecontr = new LivreController();
+                foreach ($livrecontr->getLivreByName($_POST['recherche']) as $item) {
+                    ?>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="<?php header("Content-type: image/jpg");
+                            echo $item['image'] ?>">
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="#"><?php echo $item['titre'] ?></a></h6>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+        </div>
+    </section>
+    <?php
+}
+?>
 <!-- Categories Section Begin -->
+
 <section class="categories">
     <div class="container">
         <div class="row">

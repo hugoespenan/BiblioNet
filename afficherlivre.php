@@ -42,20 +42,25 @@ require_once 'src/traitement/AuteurController.php';
         <div class="row">
             <div class="col-lg-12">
                 <div class="section-title">
-                    <h2><?php echo $_SESSION['titre'] ?></h2>
+                    <?php
+                    if (isset($_GET['titre'])) {
+                        $titre = $_GET['titre'];
+                        }
+                    ?>
+                    <h2><?php echo $titre ?></h2>
                 </div>
             </div>
             <div class="col-lg-12">
                 <div class="section-title">
-                <?php
-                $ac = new AuteurController();
-                $item = $ac->getLivreByTitre($_SESSION['titre']);
-                $image_blob = base64_encode($item['image']);
-                ?>
-                <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
-                <?php echo '<br>' .'<b>'. $item['titre'] .'</b>'. '</br>' . '</br>'.$item['resume'] . '</br>'.'<br>'." il est paru en ".'<b>'.$item['annee'].'</b>'; ?>
+                    <?php
+                    $ac = new AuteurController();
+                    $item = $ac->getLivreByTitre($titre);
+                    $image_blob = base64_encode($item['image']);
+                    ?>
+                    <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                    <?php echo '<br>' . '<b>' . $item['titre'] . '</b>' . '</br>' . '</br>' . $item['resume'] . '</br>' . '<br>' . " il est paru en " . '<b>' . $item['annee'] . '</b>'; ?>
+                </div>
             </div>
         </div>
-    </div>
 </section>
 

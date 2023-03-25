@@ -2,7 +2,6 @@
 include("src/vue/head.php");
 require_once("src/traitement/Inscrit.php");
 require_once 'src/traitement/AuteurController.php';
-<<<<<<< HEAD
 require_once 'src/traitement/LivreController.php';
 
 
@@ -45,11 +44,10 @@ if (!empty($_POST['email']) and !empty($_POST['pwd'])) {
     }
 }
 
-=======
 include("src/vue/login.php");
 include("src/vue/header.php");
 $bh = 0;
->>>>>>> cad53630bb44119bb75725a1fbc754b5b39eb826
+$z = 0;
 ?>
 
 <body xmlns="http://www.w3.org/1999/html">
@@ -121,7 +119,7 @@ $bh = 0;
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="index.php" method="post">
+                        <form action="#ancrerecherche" method="post">
                             <input type="text" name="recherche" placeholder="Quel livre cherchez vous ?">
                             <button type="submit" name="valider" class="site-btn">RECHERCHER</button>
                         </form>
@@ -136,41 +134,7 @@ $bh = 0;
 </section>
 <!-- Hero Section End -->
 <?php
-if (isset($_POST['valider']) and isset($_POST['recherche'])) {
-    ?>
-    <section class="featured spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Résultats de votre recherche</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row featured__filter">
-                <?php
-                $livrecontr = new LivreController();
-                foreach ($livrecontr->getLivreByName($_POST['recherche']) as $item) {
-                    ?>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="<?php header("Content-type: image/jpg");
-                            echo $item['image'] ?>">
-                            </div>
-                            <div class="featured__item__text">
-                                <h6><a href="#"><?php echo $item['titre'] ?></a></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
-                }
-                ?>
-            </div>
-        </div>
-        </div>
-    </section>
-    <?php
-}
+$livrecontr = new LivreController();
 ?>
 <!-- Categories Section Begin -->
 
@@ -184,22 +148,15 @@ if (isset($_POST['valider']) and isset($_POST['recherche'])) {
             </div>
             <div class="categories__slider owl-carousel">
                 <?php
-                foreach ($auteurcontr->getLivres() as $item2) {
+                foreach ($livrecontr->getLivres() as $item2) {
                     ?>
                     <div class="col-lg-3">
                         <?php $image_blob = base64_encode($item2['image']);
-                        $f2 = "";
                         ?>
-                        <img onclick="clicked()" src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                        <a href="afficherlivre.php?titre=<?php echo $item2['titre'] ?>"><img onclick="clicked()"
+                                                                                     src="data:image/jpeg;base64,<?php echo $image_blob; ?>"
+                                                                                     alt="image"></a>
                         <center><?php echo '<b>' . $item2['titre'] . '</b>'; ?></center>
-                        <script>
-                            function clicked() {
-                                <?php
-                                $_SESSION['titre'] = $item2['titre'];
-                                ?>
-                                document.location.href = "afficherlivre.php";
-                            }
-                        </script>
                     </div>
                     <?php
                 }
@@ -253,6 +210,42 @@ if ($bh == 1) {
             <div class="featured__item">
                 <div class="featured__item__text">
                     <h6><a href="#"><br><br><br><br><br><br></a></h6>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <?php
+}
+?>
+<?php
+if (isset($_POST['valider']) and isset($_POST['recherche'])) {
+    ?>
+    <section class="featured spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="ancrerecherche" class="section-title">
+                        <h2>Résultats de votre recherche</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row featured__filter">
+                <div class="categories__slider owl-carousel">
+                    <?php
+                    foreach ($livrecontr->getLivreByName($_POST['recherche']) as $item) {
+                        ?>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="col-lg-3">
+                                <?php $image_blob = base64_encode($item['image']);
+                                ?>
+                                <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                                <center><?php echo '<b>' . $item['titre'] . '</b>'; ?></center>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

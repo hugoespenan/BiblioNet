@@ -4,8 +4,8 @@ class LivreController
 {
     public function getLivreByName($name){
         $bdd = new bdd("biblionet", "localhost", "", "root");
-        $requ = $bdd->b->prepare("SELECT * FROM livre WHERE titre LIKE ':nom%'");
-        $requ->execute(array('nom' => $name));
+        $requ = $bdd->b->prepare("SELECT * FROM livre WHERE titre LIKE :nom");
+        $requ->execute(array('nom' => $name.'%'));
         $res = $requ->fetchAll();
         return $res;
     }
@@ -15,6 +15,12 @@ class LivreController
         $requ->execute(array('id' => $id_livre));
         $res = $requ->fetch();
         return $res['image'];
+    }
+    public function getLivres(){
+        $bdd = new bdd("biblionet", "localhost", "", "root");
+        $requ = $bdd->b->query("SELECT * FROM livre");
+        $res = $requ->fetchAll();
+        return $res;
     }
 
 }

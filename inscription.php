@@ -2,6 +2,8 @@
 
 include("src/vue/head.php");
 include ("src/traitement/Inscrit.php");
+include("src/vue/login.php");
+include ("src/vue/header.php");
 
 if(!isset($_SESSION['connecter']))
     $_SESSION['connecter']=false;
@@ -22,11 +24,16 @@ if(!empty($_POST['nom']) AND
     {
         if(1)
         {
-            $inscrit->inscription($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['telephone'],$_POST['rue'],$_POST['cp'], $_POST['ville']);
+            $inscrit->inscription($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['telephone'],$_POST['rue'],$_POST['cp'], $_POST['ville']);?>
+            <script type="text/javascript"> window.alert('Votre compte a ete crée !');</script>
+            <?php
         }
         else
         {
-            throw new Exception("Un probleme s'est produit lors de votre inscription!!! Merci de ressayer plus tard");
+            throw new Exception("Un problème est survenu lors de votre inscription !");?>
+            <script type="text/javascript"> window.alert('Erreur!');</script>
+<?php
+
         }
     }
     catch(Exception $e)
@@ -51,26 +58,38 @@ if(!empty($_POST['nom']) AND
 <body>
 
 
-<div class="col-lg-6">
-    <ul class="nav nav-pills">
-        <li><a href="index.php">Acceuil</a></li>
 
-        <?php
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="header__logo">
+                <a href="index.php">
+                    <img src="assets/img/BiblioNet.png" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <nav class="header__menu">
+                <ul>
 
-        if(!$_SESSION['connecter']){
-        ?>
-        <li class="active"><a href="inscription.php">Inscription</a></li>
-        <?php
-        }
-        ?>
 
-        <li><a href="reglement.php">Reglement</a></li>
+                    <li><a href="index.php">Acceuil</a></li>
+                    <?php
 
-        <li><a href="bibliotheque.php">Bibliotheque</a></li>
-    </ul>
+                    if (!$_SESSION['connecter']) {//si connecter il n,affiche pas else il affiche
+                        ?>
+                        <li class="active"><a href="inscription.php">Inscription</a></li>
+                        <?php
+                    }
+                    ?>
+                    <li><a href="reglement.php">Réglement</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
 </div>
 
-
+<div class="container">
 <div class="row">
     <div class="col-lg-12">
 
@@ -133,9 +152,9 @@ if(!empty($_POST['nom']) AND
                 </fieldset>
             </div>
         </div>
-
     </div>
 </div>
+    </div>
 </body>
 </html>
 

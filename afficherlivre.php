@@ -11,7 +11,7 @@ require_once 'src/traitement/AuteurController.php';
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="/index.php">
+                    <a href="index.php">
                         <img src="assets/img/BiblioNet.png" alt="">
                     </a>
                 </div>
@@ -29,8 +29,7 @@ require_once 'src/traitement/AuteurController.php';
                             <?php
                         }
                         ?>
-                        <li><a href="contact.php">Réglement</a></li>
-                        <li><a href="contact.php">Bibliotèque</a></li>
+                        <li><a href="reglement.php">Réglement</a></li>
                     </ul>
                 </nav>
             </div>

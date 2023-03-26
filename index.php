@@ -154,8 +154,8 @@ $livrecontr = new LivreController();
                         <?php $image_blob = base64_encode($item2['image']);
                         ?>
                         <a href="afficherlivre.php?titre=<?php echo $item2['titre'] ?>"><img onclick="clicked()"
-                                                                                     src="data:image/jpeg;base64,<?php echo $image_blob; ?>"
-                                                                                     alt="image"></a>
+                                                                                             src="data:image/jpeg;base64,<?php echo $image_blob; ?>"
+                                                                                             alt="image"></a>
                         <center><?php echo '<b>' . $item2['titre'] . '</b>'; ?></center>
                     </div>
                     <?php
@@ -196,8 +196,10 @@ if ($bh == 1) {
                         <div class="col-lg-3">
                             <?php $image_blob = base64_encode($item['image']);
                             ?>
-                            <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
-                            <center><?php echo '<b>' . $item['titre'] . '</b>'; ?></center>
+                            <a style="color: black" href="afficherlivre.php?titre=<?php echo $item['titre'] ?>"><img
+                                        src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                                <center><?php echo '<b>' . $item['titre'] . '</b>'; ?></center>
+                            </a>
                         </div>
                         <?php
                     }
@@ -239,8 +241,10 @@ if (isset($_POST['valider']) and isset($_POST['recherche'])) {
                             <div class="col-lg-3">
                                 <?php $image_blob = base64_encode($item['image']);
                                 ?>
-                                <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
-                                <center><?php echo '<b>' . $item['titre'] . '</b>'; ?></center>
+                                <a style="color: black" href="afficherlivre.php?titre=<?php echo $item['titre'] ?>"><img
+                                            src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
+                                    <center><?php echo '<b>' . $item['titre'] . '</b>'; ?></center>
+                                </a>
                             </div>
                         </div>
                         <?php

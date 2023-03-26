@@ -1,5 +1,5 @@
 <?php
-if (isset($_SESSION['connecter'])) {
+if (!isset($_SESSION['connecter'])) {
     if (isset($_GET['d'])) {
         session_destroy();
         $_SESSION['connecter'] = false;

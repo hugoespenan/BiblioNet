@@ -16,7 +16,7 @@ if (!isset($_SESSION['connecter']))
     $_SESSION['connecter'] = false;
 
 
-if (!empty($_POST['email']) and !empty($_POST['pwd'])) {
+if (!empty($_POST['email']) and !empty($_POST['mdp'])) {
     $inscrit1 = new Inscrit();
 
     if ($inscrit = $inscrit1->connexion($_POST['email'], $_POST['mdp'])) {

@@ -31,7 +31,7 @@
 
                                     <div class="col-lg-3">
                                         <ul class="nav nav-pills">
-                                            <li class="active"><a href="profil.php"><i class="fa-solid fa-user fa-xl"
+                                            <li class="active"><a href="profil.php?d=true"><i class="fa-solid fa-user fa-xl"
                                                                               style="color: #7fad39;"></i></a></li>
                                         </ul>
                                     </div>

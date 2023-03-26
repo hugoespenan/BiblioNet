@@ -76,4 +76,18 @@ class Inscrit
         }
     }
 
+    public function empruntUtilisateur($id_inscrit){
+        $emprunt = array();
+
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("SELECT * FROM emprunt e, livre l WHERE e.ref_exemplaire=l.id_livre AND e.ref_inscrit = '$id_inscrit'");
+        $c->execute();
+
+        while($data = $c->fetch()){
+            $emprunt[]=$data;
+        }
+
+        return $emprunt;
+    }
+
 }

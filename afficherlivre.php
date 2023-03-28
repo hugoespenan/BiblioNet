@@ -2,6 +2,8 @@
 include("src/vue/head.php");
 include("src/vue/header.php");
 require_once 'src/traitement/AuteurController.php';
+require_once 'src/traitement/Emprunt.php';
+require_once 'src/traitement/LivreController.php';
 ?>
 <body xmlns="http://www.w3.org/1999/html">
 
@@ -44,7 +46,7 @@ require_once 'src/traitement/AuteurController.php';
                     <?php
                     if (isset($_GET['titre'])) {
                         $titre = $_GET['titre'];
-                        }
+                    }
                     ?>
                     <h2><?php echo $titre ?></h2>
                 </div>
@@ -57,7 +59,43 @@ require_once 'src/traitement/AuteurController.php';
                     $image_blob = base64_encode($item['image']);
                     ?>
                     <img src="data:image/jpeg;base64,<?php echo $image_blob; ?>" alt="image">
-                    <?php echo '<br>' . '<b>' . $item['titre'] . '</b>' . '</br>' . '</br>' . $item['resume'] . '</br>' . '<br>' . " il est paru en " . '<b>' . $item['annee'] . '</b>'; ?>
+                    <?php echo '<br>' . '<b>' . $item['titre'] . '</b>' . '</br>' . '</br>' . $item['resume'] . '</br>' . '<br>' . " il est paru en " . '<b>' . $item['annee'] . '</b>' . '</br>' . '</br>' . '</br>'; ?>
+                    <?php
+                    if ($_SESSION['connecter'] == true) {
+                        $livrec = new LivreController();
+                        ?>
+                        <form action="afficherlivre.php?titre=<?php echo $item['titre'] ?>#ptancre" method="post">
+                            <select name="opt">
+                                <?php
+                                foreach ($livrec->getNombreEditionByLivre($item['id_livre']) as $value) {
+                                    ?>
+                                    <option><?php echo $livrec->getNomEdition($value['ref_edition']) ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                            <button style="border-color: black; color: black" name="bouton" class="form-control"><b>Emprunter</b>
+                            </button>
+                        </form>
+                        <?php
+                    }
+                    $bb = 0;
+                    if (isset($_POST['bouton'])) {
+                        $emprunt = new Emprunt();
+                        $date = date('Y-m-d');
+                        if (isset($_POST['opt'])) {
+                            $emprunt->Emprunter($date, 8, $livrec->getExemplaire($item['id_livre'], $livrec->getIdByName($_POST['opt'])), $_SESSION['id_inscrit']);
+                            $bb = 1;
+                        }
+                    }
+                    if ($bb == 1) {
+                        ?>
+                        <div id="ptancre" class="alert alert-success" role="alert">
+                            Livre emprunté !
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>

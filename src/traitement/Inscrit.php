@@ -80,8 +80,8 @@ class Inscrit
         $emprunt = array();
 
         $cobdd = new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("SELECT * FROM emprunt e, livre l WHERE e.ref_exemplaire=l.id_livre AND e.ref_inscrit = '$id_inscrit'");
-        $c->execute();
+        $c = $cobdd->b->prepare("SELECT emprunt.*, livre.* FROM emprunt INNER JOIN exemplaire ON exemplaire.id_exemplaire = emprunt.ref_exemplaire INNER JOIN livre ON exemplaire.ref_livre = livre.id_livre WHERE emprunt.ref_inscrit = :id_inscrit;");
+        $c->execute(array('id_inscrit' => $id_inscrit));
 
         while($data = $c->fetch()){
             $emprunt[]=$data;

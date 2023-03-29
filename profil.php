@@ -61,7 +61,7 @@ include("src/vue/header.php");
                                 </tr>
                                 <tr>
                                     <td>Email<span>*</span></td>
-                                    <td><input type="text" name="email" id="email"
+                                    <td><input type="email" name="email" id="email"
                                                value=<?php echo $_SESSION['email'] ?> onclick="this.value='' " required>
                                     </td>
                                 </tr>

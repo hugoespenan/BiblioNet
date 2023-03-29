@@ -112,7 +112,7 @@ if(!empty($_POST['nom']) AND
 
                             <tr>
                                 <td>Email<span>*</span></td>
-                                <td><input type="text" name="email" id="email" placeholder="Email" required></td>
+                                <td><input type="email" name="email" id="email" placeholder="Email" required></td>
                             </tr>
 
                             <tr>

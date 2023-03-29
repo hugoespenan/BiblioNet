@@ -65,7 +65,8 @@ require_once 'src/traitement/LivreController.php';
                         $livrec = new LivreController();
                         ?>
                         <form action="afficherlivre.php?titre=<?php echo $item['titre'] ?>#ptancre" method="post">
-                            <select name="opt">
+
+                            <select class="form-select" aria-label="Default select example" name="opt">
                                 <?php
                                 foreach ($livrec->getNombreEditionByLivre($item['id_livre']) as $value) {
                                     ?>
@@ -74,13 +75,13 @@ require_once 'src/traitement/LivreController.php';
                                 }
                                 ?>
                             </select>
-                            <button style="border-color: black; color: black" name="bouton" class="form-control"><b>Emprunter</b>
-                            </button>
+                            <button name="button" class="btn btn-primary">Emprunter</button>
+                            <span class="badge badge-pill badge-success">Disponible</span>
                         </form>
                         <?php
                     }
                     $bb = 0;
-                    if (isset($_POST['bouton'])) {
+                    if (isset($_POST['button'])) {
                         $emprunt = new Emprunt();
                         $date = date('Y-m-d');
                         if (isset($_POST['opt'])) {

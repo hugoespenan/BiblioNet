@@ -103,6 +103,15 @@ if (
             try {
                 if (1) {
                     $admin->listerInscrit();
+                    ?>
+                    <th scope="col">
+                    <button type="button" class="btn btn-success">Créer</button>
+                    <button type="button" class="btn btn-secondary">Modifier</button>
+                    <button type="button" class="btn btn-danger">Supprimer</button>
+                </th> <?php
+
+
+
                 } else {
                     throw new Exception("Un probleme s'est produit lors du chargement des inscrits...");
                 }

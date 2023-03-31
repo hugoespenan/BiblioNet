@@ -2,6 +2,7 @@
 include("src/vue/head.php");
 require_once("src/traitement/Inscrit.php");
 require_once 'src/traitement/AuteurController.php';
+require_once 'src/traitement/Emprunt.php';
 include("src/vue/login.php");
 include("src/vue/header.php");
 ?>
@@ -55,7 +56,7 @@ include("src/vue/header.php");
                         foreach ($resultat as $emprunt) {
 
                             $date_emprunt = $emprunt['date'];
-                            $date_retour = 8;
+                            $date_retour = $emprunt['date']+$emprunt['delais'];
                             $dateDebut = date("$date_emprunt");
 
                             // Calculer la date de retour en ajoutant $date_retour jours à la date d'emprunt, puis la stocker dans la variable $date_retour
@@ -67,13 +68,37 @@ include("src/vue/header.php");
                                 "</td><td>" . $emprunt['annee'] .
                                 "</td><td>" . $emprunt['date'] .
                                 "</td><td>" . $date_retour .
+                                "</td><td>" . "<a href='emprunt.php?pro=$emprunt[id_emprunt]'><button class='form-control'>Prolonger</button></a>" .
                                 "</td>" .
                                 "</tr>";
                         }
                         ?>
-
-
                     </table>
+                    <?php
+                    if (isset($_GET['pro'])) {
+                        ?>
+                        <form method="post">
+                            <select class="form-control" name="slct">
+                                <?php
+                                for ($i = 1; $i < 10; $i++) {
+                                    ?>
+                                    <option><?php echo $i ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                            <input class="form-control" type="submit" name="valider">
+                        </form>
+                        <?php
+                        if (isset($_POST['slct']) and $_POST['valider']) {
+                            $em = new Emprunt();
+                            $em->prolonger($_POST['slct'], $_GET['pro']);
+                            unset($_POST['slct']);
+                            unset($_POST['valider']);
+                            unset($_GET['pro']);
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>

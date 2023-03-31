@@ -22,11 +22,7 @@ class Admin
                 <th scope="col">Mot de passe</th>
                 <th scope="col">Téléphone fixe</th>
                 <th scope="col">Adresse</th>
-                <th scope="col">
-                    <button type="button" class="btn btn-success">Crée</button>
-                    <button type="button" class="btn btn-secondary">Modifier</button>
-                    <button type="button" class="btn btn-danger">Supprimer</button>
-                </th>
+
 
             </tr>
             </thead>

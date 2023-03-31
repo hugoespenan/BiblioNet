@@ -39,7 +39,7 @@ if (
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="assets/css/theme.css"/>
     <script type="text/javascript"></script>
-    <title>BiblioNet ConnexionADM</title>
+    <title>BiblioNet Connexion</title>
 </head>
 <body>
 
@@ -68,13 +68,12 @@ if (
     <div class="col-lg-12">
 
 
-        <?php if ($_SESSION['admin'] == false
-        ){ ?>
+        <?php if ($_SESSION['admin'] == false){ ?>
         <div class="panel panel-success panel1">
             <div class="panel-body">
                 <fieldset>
 
-                    <form action="adminpage.php" method="post">
+                    <form action="adminlogin.php" method="post">
                         <table class="login_table">
 
                             <tr>
@@ -99,49 +98,10 @@ if (
             <?php }
 
             if ($_SESSION['admin'] == true) {
-            $admin = new Admin();
-            try {
-                if (1) {
-                    $admin->listerInscrit();
-                    ?>
-                    <th scope="col">
-                    <button type="button" class="btn btn-success">Créer</button>
-                    <button type="button" class="btn btn-secondary">Modifier</button>
-                    <button type="button" class="btn btn-danger">Supprimer</button>
-                </th> <?php
+                header("Location: adminpage1.php");
 
-
-
-                } else {
-                    throw new Exception("Un probleme s'est produit lors du chargement des inscrits...");
-                }
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-
-
-
-                ?>
-            <form action="adminpage.php" method="post">
-                <table class="login_table">
-                    <tr>
-                        <td><input type="submit" value="Déconnexion" name="deco" href="adminpage.php"></td>
-
-
-                            <?php
-
-                            if (isset($_POST['deco'])) {
-                                $_SESSION['admin'] = false;
-                                header("location: adminpage.php");
-                            }
-                        }
-                        ?>
-                    </tr>
-                </table>
-            </form>
-
+            } ?>
         </div>
-
     </div>
 </div>
 </body>

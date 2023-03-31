@@ -182,7 +182,7 @@ if (
                 {
                 $inscrit->inscription($_POST['nom'], $_POST['prenom'], $_POST['emailinsc'], $_POST['mdpinsc'], $_POST['telephone'], $_POST['rue'], $_POST['cp'], $_POST['ville']); ?>
                     <script type="text/javascript"> window.alert('Votre compte a ete crée !');</script>
-                <?php
+                    <?php
                 }
                 }
                 }

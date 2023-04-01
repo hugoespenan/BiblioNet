@@ -31,11 +31,28 @@
 
                                     <div class="col-lg-3">
                                         <ul class="nav nav-pills">
-                                            <li class="active"><a href="profil.php?d=true"><i class="fa-solid fa-user fa-xl"
-                                                                              style="color: #7fad39;"></i></a></li>
+                                            <li class="active"><a href="profil.php?d=true"><i
+                                                            class="fa-solid fa-user fa-xl"
+                                                            style="color: #7fad39;"></i></a></li>
                                         </ul>
                                     </div>
+                                    <?php
+                                    require_once 'src/traitement/Notification.php';
+                                    $notif = new Notification();
+                                    $i = sizeof($notif->afficherNotification());
+                                    ?>
+                                    <a href="notification.php" class="notification">
+                                    <span class="badge"><?php if ($i>0){
+                                        echo $i;
+                                        } ?></span>
+                                    <div class="col-lg-3">
+                                        <ul class="nav nav-pills">
+                                            <li class="active"><i
+                                                            class="fa-solid fa-bell fa-xl" style="color: #7fad39;"></i>
 
+
+                                        </ul>
+                                    </div>
                                     <div class="col-lg-3">
                                         <ul class="nav nav-pills">
                                             <li class="active"><a href="index.php?d=true"><i
@@ -48,13 +65,13 @@
                                 </div>
                             </div>
                             <?php
-                                }
+                        }
 
-                                ?>
-                            </div>
-                        </div>
-
+                        ?>
                     </div>
                 </div>
+
             </div>
         </div>
+    </div>
+</div>

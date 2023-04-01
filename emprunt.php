@@ -56,12 +56,10 @@ include("src/vue/header.php");
                         foreach ($resultat as $emprunt) {
 
                             $date_emprunt = $emprunt['date'];
-                            $date_retour = $emprunt['date']+$emprunt['delais'];
-                            $dateDebut = date("$date_emprunt");
-
+                            $oldDate = $emprunt['date'];
                             // Calculer la date de retour en ajoutant $date_retour jours à la date d'emprunt, puis la stocker dans la variable $date_retour
-                            $date_retour = date('d-m-Y', strtotime($dateDebut . ' +' . $date_retour . ' days'));
-
+                            $date_retour = date("Y-m-d", strtotime($oldDate.'+ '.$emprunt['delais'].' days'));
+                            $dateDebut = date("$date_emprunt");
                             echo "<tr>" .
                                 "<td>" . $emprunt['id_livre'] .
                                 "</td><td>" . $emprunt['titre'] .

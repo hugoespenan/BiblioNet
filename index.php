@@ -49,9 +49,7 @@ include("src/vue/header.php");
 $bh = 0;
 $z = 0;
 ?>
-
 <body xmlns="http://www.w3.org/1999/html">
-
 
 <header class="header">
     <div class="container">
@@ -84,7 +82,6 @@ $z = 0;
         </div>
     </div>
 </header>
-
 
 <section class="hero">
     <div class="container">
@@ -176,7 +173,6 @@ $livrecontr = new LivreController();
 </section>
 <br><br><br><br><br>
 <!-- Categories Section End -->
-
 <!-- Featured Section Begin -->
 <?php
 if ($bh == 1) {
@@ -258,9 +254,7 @@ if (isset($_POST['valider']) and isset($_POST['recherche'])) {
     <?php
 }
 ?>
-
 <!-- Featured Section End -->
-
 <!-- Js Plugins -->
 <script src="assets/js/jquery-3.3.1.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
@@ -270,8 +264,5 @@ if (isset($_POST['valider']) and isset($_POST['recherche'])) {
 <script src="assets/js/mixitup.min.js"></script>
 <script src="assets/js/owl.carousel.min.js"></script>
 <script src="assets/js/main.js"></script>
-
-
 </body>
-
 </html>

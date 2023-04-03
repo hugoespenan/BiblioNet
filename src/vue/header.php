@@ -39,7 +39,10 @@
                                     <?php
                                     require_once 'src/traitement/Notification.php';
                                     $notif = new Notification();
-                                    $i = sizeof($notif->afficherNotification());
+                                    $i = sizeof($notif->afficherNotification())+sizeof($notif->afficherNotificationPerso($_SESSION['id_inscrit']));
+                                    if (isset($_SESSION['connecter'])) {
+                                        $notif->retard($_SESSION['id_inscrit']);
+                                    }
                                     ?>
                                     <a href="notification.php" class="notification">
                                     <span class="badge"><?php if ($i>0){

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 01 avr. 2023 à 13:06
+-- Généré le : lun. 03 avr. 2023 à 19:50
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -35,7 +35,14 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `email` varchar(50) NOT NULL,
   `mdp` varchar(50) NOT NULL,
   PRIMARY KEY (`id_admin`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `nom`, `prenom`, `email`, `mdp`) VALUES
+(1, 'Espenan', 'Hugo', 'h@gmail.com', 'azerty');
 
 -- --------------------------------------------------------
 
@@ -133,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `emprunt` (
   PRIMARY KEY (`id_emprunt`),
   KEY `fk_emprunt_exemplaire` (`ref_exemplaire`),
   KEY `fk_emprunt_inscrit` (`ref_inscrit`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `emprunt`
@@ -144,7 +151,8 @@ INSERT INTO `emprunt` (`id_emprunt`, `date`, `delais`, `ref_exemplaire`, `ref_in
 (3, '2023-03-28', 8, 1, 1),
 (17, '2023-03-29', 8, 8, 1),
 (18, '2023-03-29', 8, 6, 1),
-(19, '2023-03-29', 51, 2, 2);
+(19, '2023-03-29', 51, 2, 2),
+(20, '2014-04-09', 20, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -286,6 +294,33 @@ INSERT INTO `notification` (`id_notification`, `titre`, `description`, `visible`
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `notification_perso`
+--
+
+DROP TABLE IF EXISTS `notification_perso`;
+CREATE TABLE IF NOT EXISTS `notification_perso` (
+  `id_notification_perso` int NOT NULL AUTO_INCREMENT,
+  `titre` varchar(50) NOT NULL,
+  `description` varchar(200) NOT NULL,
+  `visible` tinyint(1) NOT NULL,
+  `ref_inscrit` int NOT NULL,
+  `ref_exemplaire` int NOT NULL,
+  PRIMARY KEY (`id_notification_perso`),
+  KEY `ref_inscrit` (`ref_inscrit`),
+  KEY `ref_exemplaire` (`ref_exemplaire`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `notification_perso`
+--
+
+INSERT INTO `notification_perso` (`id_notification_perso`, `titre`, `description`, `visible`, `ref_inscrit`, `ref_exemplaire`) VALUES
+(103, 'Rendez votre livre', 'Vous avez un livre à rendre : Le dieu de la programmation lemprunt de reference', 0, 1, 1),
+(129, 'Rendez votre livre', 'Vous avez un livre à rendre : Le Dernier Jour d\'un condamné retard de 89974 jours !', 0, 1, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `pays`
 --
 
@@ -341,6 +376,13 @@ ALTER TABLE `emprunt`
 ALTER TABLE `exemplaire`
   ADD CONSTRAINT `fk_exemplaire_edition` FOREIGN KEY (`ref_edition`) REFERENCES `edition` (`id_edition`),
   ADD CONSTRAINT `fk_exemplaire_livre` FOREIGN KEY (`ref_livre`) REFERENCES `livre` (`id_livre`);
+
+--
+-- Contraintes pour la table `notification_perso`
+--
+ALTER TABLE `notification_perso`
+  ADD CONSTRAINT `notification_perso_ibfk_1` FOREIGN KEY (`ref_inscrit`) REFERENCES `inscrit` (`id_inscrit`),
+  ADD CONSTRAINT `notification_perso_ibfk_2` FOREIGN KEY (`ref_exemplaire`) REFERENCES `exemplaire` (`id_exemplaire`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -92,6 +92,9 @@ $z = 0;
                         <i class="fa fa-bars"></i>
                         <span>Auteurs</span>
                     </div>
+                    <?php
+                    require_once 'src/traitement/Notification.php';
+                    ?>
                     <ul>
                         <?php
                         $filtre = "";

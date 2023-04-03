@@ -1,11 +1,3 @@
-<?php
-include("src/vue/head.php");
-include("src/traitement/Inscrit.php");
-include("src/vue/login.php");
-include("src/traitement/Admin.php");
-?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +11,9 @@ include("src/traitement/Admin.php");
 
 
 <div class="container">
+
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-3">
             <div class="header__logo">
                 <a href="index.php">
                     <img src="assets/img/BiblioNet.png" alt="">
@@ -28,19 +21,20 @@ include("src/traitement/Admin.php");
             </div>
         </div>
         <div class="col-lg-7">
-            <nav class="header__menu text-center">
+            <nav class="header__menu">
 
-                <h3>Interface Administrateur</h3>
+                <h3>Gestion d'utilisateurs</h3>
 
             </nav>
         </div>
     </div>
 
+
     <form method="post" action="adminpage1.php">
         <div class="d-grid gap-2 col-7 mx-auto">
             <button name="user" class="btn btn-outline-success" type="submit">Gestion Utilisateurs</button>
-            <button class="btn btn-outline-success" type="submit">Gestion Livres</button>
-            <button class="btn btn-outline-success" type="submit">Gestion Emprunts</button>
+            <button name="book" class="btn btn-outline-success" type="submit">Gestion Livres</button>
+            <button name="emprunt" class="btn btn-outline-success" type="submit">Gestion Emprunts</button>
             <button name="deco" class="btn btn btn-primary" type="submit">Deconnexion</button>
         </div>
     </form>
@@ -50,11 +44,17 @@ include("src/traitement/Admin.php");
         $_SESSION['admin'] = false;
         header("location: adminlogin.php");
     }
-    ?>
 
-    <?php
     if (isset($_POST['user'])) {
         header("location: gestionuser.php");
+    }
+
+    if (isset($_POST['emprunt'])) {
+        header("Location: gestionemprunt.php");
+    }
+
+    if (isset($_POST['book'])) {
+        header("Location: gestionbook.php");
     }
     ?>
 

@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `description` varchar(200) NOT NULL,
   `visible` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_notification`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `notification`

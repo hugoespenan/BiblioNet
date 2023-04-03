@@ -23,7 +23,7 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <ul class="nav nav-pills">
-                                            <li class="active"><a href="adminpage.php"><i
+                                            <li class="active"><a href="adminlogin.php"><i
                                                             class="fa-solid fa-screwdriver-wrench fa-xl"
                                                             style="color: #7fad39;"></i></a></li>
                                         </ul>

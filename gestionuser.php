@@ -4,31 +4,6 @@ include("src/vue/head.php");
 include("src/traitement/Inscrit.php");
 include("src/vue/login.php");
 include("src/traitement/Admin.php");
-
-
-if (!isset($_SESSION['admin'])) {
-    $_SESSION['admin'] = false;
-}
-
-
-if (
-    !empty($_POST['email']) and
-    !empty($_POST['mdp'])
-) {
-
-    $admin = new Admin();
-    try {
-        if (1) {
-            $admin->connexion($_POST['email'], $_POST['mdp']);
-        } else {
-            throw new Exception("Un probleme s'est produit lors de votre connexion!!! Merci de ressayer plus tard");
-        }
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-}
-
-
 ?>
 
 
@@ -45,22 +20,9 @@ if (
 
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="header__logo">
-                <a href="index.php">
-                    <img src="assets/img/BiblioNet.png" alt="">
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-7">
-            <nav class="header__menu">
-
-                <h3>Gestion d'utilisateurs</h3>
-
-            </nav>
-        </div>
-    </div>
+    <?php
+    include("adminpage1.php");
+    ?>
 </div>
 
 
@@ -69,33 +31,11 @@ if (
 
 
         <?php if ($_SESSION['admin'] == false
-        ){ ?>
-        <div class="panel panel-success panel1">
-            <div class="panel-body">
-                <fieldset>
+        ){
 
-                    <form action="adminpage.php" method="post">
-                        <table class="login_table">
 
-                            <tr>
-                                <td>Email<span>*</span></td>
-                                <td><input type="text" name="email" id="email" placeholder="Email" required></td>
-                            </tr>
+            ?>
 
-                            <tr>
-                                <td>Mot de passe<span>*</span></td>
-                                <td><input type="password" name="mdp" id="mdp" placeholder="Mot de passe" required></td>
-                            </tr>
-
-                            <tr>
-                                <td><small>Se souvenir </small><input type="checkbox" name="keep" value="true"></td>
-                                <td><input type="submit" value="Connexion"/><input type="reset" value="Effacer"/></td>
-                            </tr>
-                        </table>
-                    </form>
-
-                </fieldset>
-            </div>
             <?php }
 
             if ($_SESSION['admin'] == true) {
@@ -106,16 +46,13 @@ if (
                     ?>
                     <form action="gestionuser.php" method="post">
                         <th scope="col">
-                            <input name="crea" type="submit" class="btn btn-success" value="Ajouter"></input>
-                            <input name="modif" type="submit" class="btn btn-secondary" value="Modification"></input>
-                            <input name="supp" type="submit" class="btn btn-danger" value="Supprimer"></input>
-                            <?php
-
-
-                            ?>
+                            <input name="crea" type="submit" class="btn btn-outline-primary" value="Ajouter"></input>
+                            <input name="modif" type="submit" class="btn btn-outline-primary" value="Modification"></input>
+                            <input name="supp" type="submit" class="btn btn-outline-primary" value="Supprimer"></input>
                         </th>
                     </form>
                 <?php
+
 
                 if (isset($_POST['crea'])) {
 
@@ -206,26 +143,8 @@ if (
                 echo $e->getMessage();
             }
 
-
+            }
             ?>
-            <form action="adminpage.php" method="post">
-                <table class="login_table">
-                    <tr>
-                        <td><input type="submit" value="Déconnexion" name="deco" href="adminpage.php"></td>
-
-
-                        <?php
-
-                        if (isset($_POST['deco'])) {
-                            $_SESSION['admin'] = false;
-                            header("location: adminpage.php");
-                        }
-                        }
-                        ?>
-                    </tr>
-                </table>
-            </form>
-
         </div>
 
     </div>

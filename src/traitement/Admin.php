@@ -66,85 +66,37 @@ class Admin
         }
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getPrenom()
+    public function listerEmprunt()
     {
-        return $this->prenom;
+
     }
 
-    /**
-     * @param mixed $prenom
-     */
-    public function setPrenom($prenom)
+    public function listerLivre()
     {
-        $this->prenom = $prenom;
+        $livre = array();
+        $cobdd = new bdd ("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->query("SELECT id_livre, titre FROM livre");
+        $c->execute();
+
+        while ($data = $c->fetch()) {
+            $livre[] = $data;
+        }
+
+        return $livre;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+
+    public function ajoutLivre($titre, $annee, $resume, $image)
     {
-        return $this->email;
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("INSERT INTO livre (titre,annee,resume,image) VALUES (:titre, :annee, :resume, :image)");
+        $c->execute(array(
+            'titre' => $titre,
+            'annee' => $annee,
+            'resume' => $resume,
+            'image' => $image
+        ));
     }
 
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNom()
-    {
-        return $this->nom;
-    }
-
-    /**
-     * @param mixed $nom
-     */
-    public function setNom($nom)
-    {
-        $this->nom = $nom;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMdp()
-    {
-        return $this->mdp;
-    }
-
-    /**
-     * @param mixed $mdp
-     */
-    public function setMdp($mdp)
-    {
-        $this->mdp = $mdp;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
 }

@@ -95,6 +95,11 @@ include("src/vue/header.php");
                             unset($_POST['slct']);
                             unset($_POST['valider']);
                             unset($_GET['pro']);
+                            ?>
+                            <script>
+                                document.location.href="index.php";
+                            </script>
+                            <?php
                         }
                     }
                     ?>
@@ -104,6 +109,11 @@ include("src/vue/header.php");
                         $em->rendreEmprunt($_GET['ren']);
                         unset($_POST['valider2']);
                         unset($_GET['ren']);
+                        ?>
+                        <script>
+                            document.location.href="index.php";
+                        </script>
+                        <?php
                     }
                     ?>
                 </div>

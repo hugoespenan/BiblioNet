@@ -2,7 +2,7 @@
 include("src/vue/head.php");
 require_once("src/traitement/Inscrit.php");
 require_once 'src/traitement/AuteurController.php';
-require_once 'src/traitement/Emprunt.php';
+require_once 'src/traitement/EmpruntController.php';
 include("src/vue/login.php");
 include("src/vue/header.php");
 ?>
@@ -58,7 +58,7 @@ include("src/vue/header.php");
                             $date_emprunt = $emprunt['date'];
                             $oldDate = $emprunt['date'];
                             // Calculer la date de retour en ajoutant $date_retour jours à la date d'emprunt, puis la stocker dans la variable $date_retour
-                            $date_retour = date("Y-m-d", strtotime($oldDate.'+ '.$emprunt['delais'].' days'));
+                            $date_retour = date("Y-m-d", strtotime($oldDate . '+ ' . $emprunt['delais'] . ' days'));
                             $dateDebut = date("$date_emprunt");
                             echo "<tr>" .
                                 "<td>" . $emprunt['id_livre'] .
@@ -67,6 +67,7 @@ include("src/vue/header.php");
                                 "</td><td>" . $emprunt['date'] .
                                 "</td><td>" . $date_retour .
                                 "</td><td>" . "<a href='emprunt.php?pro=$emprunt[id_emprunt]'><button class='form-control'>Prolonger</button></a>" .
+                                "</td><td>" . "<a href='emprunt.php?ren=$emprunt[id_emprunt]'><button class='form-control'>Rendre</button></a>" .
                                 "</td>" .
                                 "</tr>";
                         }
@@ -89,12 +90,20 @@ include("src/vue/header.php");
                         </form>
                         <?php
                         if (isset($_POST['slct']) and $_POST['valider']) {
-                            $em = new Emprunt();
+                            $em = new EmpruntController();
                             $em->prolonger($_POST['slct'], $_GET['pro']);
                             unset($_POST['slct']);
                             unset($_POST['valider']);
                             unset($_GET['pro']);
                         }
+                    }
+                    ?>
+                    <?php
+                    if (isset($_GET['ren'])) {
+                        $em = new EmpruntController();
+                        $em->rendreEmprunt($_GET['ren']);
+                        unset($_POST['valider2']);
+                        unset($_GET['ren']);
                     }
                     ?>
                 </div>

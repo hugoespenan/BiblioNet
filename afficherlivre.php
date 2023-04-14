@@ -2,7 +2,7 @@
 include("src/vue/head.php");
 include("src/vue/header.php");
 require_once 'src/traitement/AuteurController.php';
-require_once 'src/traitement/Emprunt.php';
+require_once 'src/traitement/EmpruntController.php';
 require_once 'src/traitement/LivreController.php';
 ?>
 <body xmlns="http://www.w3.org/1999/html">
@@ -76,25 +76,38 @@ require_once 'src/traitement/LivreController.php';
                                 ?>
                             </select>
                             <button name="button" class="btn btn-primary">Emprunter</button>
-                            <span class="badge badge-pill badge-success">Disponible</span>
                         </form>
                         <?php
-                    }
-                    $bb = 0;
-                    if (isset($_POST['button'])) {
-                        $emprunt = new Emprunt();
-                        $date = date('Y-m-d');
-                        if (isset($_POST['opt'])) {
-                            $emprunt->Emprunter($date, 8, $livrec->getExemplaire($item['id_livre'], $livrec->getIdByName($_POST['opt'])), $_SESSION['id_inscrit']);
-                            $bb = 1;
+                        $emprunt = new EmpruntController();
+                        $bb = 0;
+                        if (isset($_POST['button'])) {
+                            $date = date('Y-m-d');
+                            if (isset($_POST['opt'])) {
+                                $dispo = false;
+                                if ($emprunt->estDispo($item['id_livre'], $livrec->getIdByName($_POST['opt']))) {
+                                    ?>
+                                    <span class="badge badge-pill badge-success">Disponible</span>
+                                    <?php
+                                    $dispo = true;
+                                } else {
+                                    ?>
+                                    <span class="badge badge-pill badge-danger">Indisponible</span>
+                                    <?php
+                                    $dispo = false;
+                                }
+                                if ($dispo) {
+                                    $emprunt->Emprunter($date, 8, $livrec->getExemplaire($item['id_livre'], $livrec->getIdByName($_POST['opt'])), $_SESSION['id_inscrit']);
+                                    $bb = 1;
+                                }
+                            }
                         }
-                    }
-                    if ($bb == 1) {
-                        ?>
-                        <div id="ptancre" class="alert alert-success" role="alert">
-                            Livre emprunté !
-                        </div>
-                        <?php
+                        if ($bb == 1) {
+                            ?>
+                            <div id="ptancre" class="alert alert-success" role="alert">
+                                Livre emprunté !
+                            </div>
+                            <?php
+                        }
                     }
                     ?>
                 </div>

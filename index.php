@@ -56,7 +56,7 @@ $z = 0;
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="/index.php">
+                    <a href="index.php">
                         <img src="assets/img/BiblioNet.png" alt="">
                     </a>
                 </div>

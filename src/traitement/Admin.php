@@ -2,6 +2,7 @@
 
 class Admin
 {
+
     private $nom;
     private $prenom;
     private $email;
@@ -9,44 +10,22 @@ class Admin
     private $id;
 
 
-    public function listerInscrit()
-    {
+
+
+
+    public function listerInscrit(){
         $cobdd = new bdd ("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->query("SELECT * FROM inscrit "); ?>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Email</th>
-                <th scope="col">Mot de passe</th>
-                <th scope="col">Téléphone fixe</th>
-                <th scope="col">Adresse</th>
+        $c = $cobdd->b->query("SELECT * FROM inscrit ");
 
+        while ($data = $c->fetch()) {
+            $inscrit[] = $data;
+        }
 
-            </tr>
-            </thead>
-
-            <?php
-            $cobdd = new bdd("biblionet", "localhost", "", "root");
-            $c = $cobdd->b->query("SELECT * FROM inscrit");
-            $resultats = $c->fetchAll();
-            foreach ($resultats as $resultat) {
-                echo "<tr>";
-                echo "<td>" . $resultat['nom'] . "</td>";
-                echo "<td>" . $resultat['prenom'] . "</td>";
-                echo "<td>" . $resultat['email'] . "</td>";
-                echo "<td>" . $resultat['mdp'] . "</td>";
-                echo "<td>" . $resultat['tel_portable'] . "</td>";
-                echo "<td>" . $resultat['rue'] . " " . $resultat['cp'] . " " . $resultat['ville'] . "</td>";
-                echo "</tr>";
-            }
-            ?>
-
-        </table>
-        <?php
-
+        return $inscrit;
     }
+
+
+
 
     public function connexion($email, $mdp)
     {
@@ -86,16 +65,107 @@ class Admin
     }
 
 
-    public function ajoutLivre($titre, $annee, $resume, $image)
+    public function ajoutUtilisateur($nom, $prenom, $email, $tel_portable, $rue, $cp, $ville)
+    {
+
+
+        $comb = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $shfl = str_shuffle($comb);
+        $pwd = substr($shfl, 0, 8);
+
+
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("SELECT COUNT(*) FROM livre WHERE nom=:nom AND email=:email");
+        $c->execute(array(
+            'nom' => $nom,
+            'email' => $email
+        ));
+        $result = $c->fetchColumn();
+        if ($result == 0) {
+
+            $c = $cobdd->b->prepare("INSERT INTO inscrit (nom, prenom, email,mdp, tel_portable, rue, cp, ville) VALUES (:nom, :prenom, :email, :mdp, :tel_portable, :rue, :cp, :ville)");
+            $c->execute(array(
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'email' => $email,
+                'mdp' => $pwd,
+                'tel_portable' => $tel_portable,
+                'rue' => $rue,
+                'cp' => $cp,
+                'ville' => $ville,
+            ));
+        }
+    }
+
+    public function ajoutLivre ($titre, $annee, $resume, $image)
     {
         $cobdd = new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("INSERT INTO livre (titre,annee,resume,image) VALUES (:titre, :annee, :resume, :image)");
+        $c = $cobdd->b->prepare("SELECT COUNT(*) FROM livre WHERE titre=:titre AND annee=:annee");
         $c->execute(array(
+            'titre' => $titre,
+            'annee' => $annee
+        ));
+        $result = $c->fetchColumn();
+        if($result == 0) {
+            $c = $cobdd->b->prepare("INSERT INTO livre (titre,annee,resume,image) VALUES (:titre, :annee, :resume, :image)");
+            $c->execute(array(
+                'titre' => $titre,
+                'annee' => $annee,
+                'resume' => $resume,
+                'image' => $image
+            ));
+        }
+
+    }
+
+
+    public function modifierLivre($id_livre, $titre, $annee, $resume, $image)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+            $c = $cobdd->b->prepare("UPDATE livre SET titre=:titre, annee=:annee, resume=:resume, image=:image WHERE id_livre=:id_livre");
+        $c->execute(array(
+            'id_livre' => $id_livre,
             'titre' => $titre,
             'annee' => $annee,
             'resume' => $resume,
             'image' => $image
         ));
+    }
+
+    public function modifierUtilisateur($id_inscrit, $nom, $prenom, $email, $tel_portable, $rue, $cp, $ville)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET nom=:nom, prenom=:prenom, email=:email, tel_portable=:tel_portable, rue=:rue, cp=:cp, ville=:ville WHERE id_inscrit=:id_inscrit");
+        $c->execute(array(
+            'id_inscrit' => $id_inscrit,
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+            'tel_portable' => $tel_portable,
+            'rue' => $rue,
+            'cp' => $cp,
+            'ville' => $ville,
+        ));
+    }
+
+    public function supprimerLivre($id_livre){
+
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("DELETE FROM livre WHERE id_livre = $id_livre");
+        $c->execute();
+
+
+
+    }
+
+    public function supprimerUser($id_inscrit){
+
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("DELETE FROM inscrit WHERE id_inscrit = $id_inscrit");
+        $c->execute();
+
+
+
     }
 
 

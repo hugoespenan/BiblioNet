@@ -1,14 +1,7 @@
-<?php
-
-include("src/vue/head.php");
-include("src/traitement/Inscrit.php");
-include("src/vue/login.php");
-include("src/traitement/Admin.php");
-?>
 
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
@@ -58,12 +51,13 @@ include("src/traitement/Admin.php");
                             $admin = new Admin();
                             $resultat = $admin->listerLivre();
                             foreach ($resultat as $livre) {
+                                $iddulivre = $livre['id_livre'];
                                 echo "<tr>" .
                                     "<td>" . $livre['id_livre'] .
                                     "</td><td>" . $livre['titre'] .
-                                    "</td><td>" . '<button name="editbook" class="btn btn-outline-primary" type="submit">Editer</button>' .
-                                    "</td><td>" . '<button name="deletebook" class="btn btn-outline-danger" type="submit">Supprimer</button>' .
-                                    "</td>".
+                                    "</td><td>" . '<button name="editbook"  value=' . $iddulivre . ' class="btn btn-outline-primary" type="submit" >Editer</button>' .
+                                    "</td><td>" . '<button name="deletebook" onclick= myFunction() value=' . $iddulivre . ' class="btn btn-outline-danger" type="submit">Supprimer</button>' .
+                                    "</td>" .
                                     "</tr>";
                             }
 
@@ -71,46 +65,121 @@ include("src/traitement/Admin.php");
                             if (isset($_POST['ajoutbook'])) {
 
                                 ?>
-                                <div class="container">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlInput1">Titre du livre</label>
-                                            <input type="text" class="form-control" placeholder="ex: Harry Potter" name="titre" required>
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajout Livre</h5>
+                                            <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlInput1">Annee</label>
-                                            <input type="text" class="form-control" placeholder="ex: 1997" name="annee" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Resume</label>
-                                            <textarea class="form-control" name="resume" required" rows="3"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="file" name="image" class="form-control-file">
-                                        </div>
-                                        <div class="row">
-                                            <button type="submit" class="btn btn-outline-info" name="ajouter">Ajouter</button>
-                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Titre du livre</label>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="ex: Harry Potter"
+                                                           name="titre">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Annee</label>
+                                                    <input type="text" class="form-control" placeholder="ex: 1997"
+                                                           name="annee">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Resume</label>
+                                                    <textarea class="form-control" placeholder="Il était une fois..."
+                                                              name="resume"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="file" name="image" class="form-control-file">
+                                                </div>
 
-                                    </form>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-outline-dark" data-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                            <button type="submit" name="ajouter" class="btn btn-outline-primary">
+                                                Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <?php
 
                             }
 
                             if (isset($_POST['ajouter'])) {
-
-                                var_dump($_POST['image']);
-                                $admin->ajoutLivre($_POST['titre'], $_POST['annee'], $_POST['resume'], $_POST['image'] );
+                                $admin->ajoutLivre($_POST['titre'], $_POST['annee'], $_POST['resume'], $_POST['image']);
 
                                 ?>
-                                <script type="text/javascript"> window.alert('Le livre a été ajouté avec succés !');</script>
+                                <div class="alert alert-success" role="alert">
+                                    Le livre a été Ajouter !
+                                </div>
                                 <?php
                             }
+
+
                             if (isset($_POST['deletebook'])) {
+                                $admin->supprimerLivre($_POST['deletebook']); ?>
+                                <div class="alert alert-danger" role="alert">
+                                    Le livre a été Supprimer !
+                                </div><?php
+
                             }
 
                             if (isset($_POST['editbook'])) {
+
+                                ?>
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modification d'un livre</h5>
+                                            <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Nouveau Titre</label>
+                                                    <input type="text" class="form-control"
+                                                           placeholder="ex: Harry Potter" name="newtitre">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlInput1">Nouvelle Annee</label>
+                                                    <input type="text" class="form-control" placeholder="ex: 1997"
+                                                           name="newannee">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Nouveau Resume</label>
+                                                    <textarea class="form-control" placeholder="Il était une fois..."
+                                                              name="newresume"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="file" name="newimage" class="form-control-file">
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">
+                                                Annuler
+                                            </button>
+                                            <button type="submit" name="modifi" class="btn btn-primary">Enregistrer les
+                                                changements
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+
+                            }
+                            if (isset($_POST['modifi'])) {
+                                //if (!empty(!$_POST['newtitre']) AND !empty(!$_POST['newannee']) AND !empty(!$_POST['newresume']) AND !empty(!$_POST['newimage'])){
+                                $admin->modifierLivre($iddulivre, $_POST['newtitre'], $_POST['newannee'], $_POST['newresume'], $_POST['newimage']);
 
                             }
                             ?>

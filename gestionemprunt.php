@@ -1,12 +1,3 @@
-<?php
-
-include("src/vue/head.php");
-include("src/traitement/Inscrit.php");
-include("src/vue/login.php");
-include("src/traitement/Admin.php");
-?>
-
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>

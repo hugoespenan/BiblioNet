@@ -1,3 +1,10 @@
+
+<?php
+include("src/vue/head.php");
+include("src/traitement/Inscrit.php");
+include("src/vue/login.php");
+include("src/traitement/Admin.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +42,7 @@
             <button name="user" class="btn btn-outline-success" type="submit">Gestion Utilisateurs</button>
             <button name="book" class="btn btn-outline-success" type="submit">Gestion Livres</button>
             <button name="emprunt" class="btn btn-outline-success" type="submit">Gestion Emprunts</button>
-            <button name="deco" class="btn btn btn-primary" type="submit">Deconnexion</button>
+            <button name="deco" class="btn btn btn-primary" type="submit">Déconnexion</button>
         </div>
     </form>
     <?php
@@ -44,6 +51,8 @@
         $_SESSION['admin'] = false;
         header("location: adminlogin.php");
     }
+    ?>
+    <?php
 
     if (isset($_POST['user'])) {
         header("location: gestionuser.php");

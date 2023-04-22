@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 03 avr. 2023 à 19:50
+-- Généré le : ven. 14 avr. 2023 à 15:06
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `emprunt` (
   PRIMARY KEY (`id_emprunt`),
   KEY `fk_emprunt_exemplaire` (`ref_exemplaire`),
   KEY `fk_emprunt_inscrit` (`ref_inscrit`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `emprunt`
@@ -154,6 +154,19 @@ INSERT INTO `emprunt` (`id_emprunt`, `date`, `delais`, `ref_exemplaire`, `ref_in
 (19, '2023-03-29', 51, 2, 2),
 (20, '2014-04-09', 20, 3, 1);
 
+--
+-- Déclencheurs `emprunt`
+--
+DROP TRIGGER IF EXISTS `disp`;
+DELIMITER $$
+CREATE TRIGGER `disp` AFTER INSERT ON `emprunt` FOR EACH ROW BEGIN
+  UPDATE exemplaire
+  SET disponible = false
+  WHERE exemplaire.id_exemplaire = NEW.ref_exemplaire;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -165,6 +178,7 @@ CREATE TABLE IF NOT EXISTS `exemplaire` (
   `id_exemplaire` int NOT NULL AUTO_INCREMENT,
   `ref_livre` int NOT NULL,
   `ref_edition` int NOT NULL,
+  `disponible` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_exemplaire`),
   KEY `fk_exemplaire_edition` (`ref_edition`),
   KEY `fk_exemplaire_livre` (`ref_livre`)
@@ -174,20 +188,16 @@ CREATE TABLE IF NOT EXISTS `exemplaire` (
 -- Déchargement des données de la table `exemplaire`
 --
 
-INSERT INTO `exemplaire` (`id_exemplaire`, `ref_livre`, `ref_edition`) VALUES
-(1, 6, 1),
-(2, 1, 2),
-(3, 1, 2),
-(4, 2, 3),
-(5, 2, 3),
-(6, 2, 4),
-(7, 3, 5),
-(8, 4, 6),
-(9, 6, 1),
-(10, 6, 1),
-(11, 6, 1),
-(12, 6, 1),
-(13, 6, 1);
+INSERT INTO `exemplaire` (`id_exemplaire`, `ref_livre`, `ref_edition`, `disponible`) VALUES
+(1, 6, 1, 1),
+(2, 1, 2, 1),
+(3, 1, 2, 1),
+(4, 2, 3, 0),
+(5, 2, 3, 1),
+(6, 2, 4, 1),
+(7, 3, 5, 0),
+(8, 4, 6, 1),
+(9, 6, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -281,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `description` varchar(200) NOT NULL,
   `visible` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_notification`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `notification`

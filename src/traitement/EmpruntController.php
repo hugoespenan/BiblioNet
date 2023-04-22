@@ -1,6 +1,6 @@
 <?php
 
-class Emprunt
+class EmpruntController
 {
     private $date;
     private $delais;
@@ -50,6 +50,23 @@ class Emprunt
         $requ->execute(array('id' => $id_emprunt));
         $res = $requ->fetch();
         return $res['temps'];
+    }
+    public function rendreEmprunt($id_emprunt){
+        $bdd = new bdd("biblionet", "localhost", "", "root");
+        $requ = $bdd->b->prepare("DELETE FROM emprunt WHERE id_emprunt = :id");
+        $requ->execute(array('id' => $id_emprunt));
+        $requ2 = $bdd->b->query("UPDATE exemplaire LEFT JOIN emprunt ON emprunt.ref_exemplaire = exemplaire.id_exemplaire SET disponible = true WHERE emprunt.ref_exemplaire = id_exemplaire");
+    }
+    public function estDispo($id_livre, $id_edition){
+        $bdd = new bdd("biblionet", "localhost", "", "root");
+        $requ = $bdd->b->prepare("SELECT * FROM exemplaire WHERE ref_edition = :edit and ref_livre = :livre and disponible = true");
+        $requ->execute(array('edit' => $id_edition, 'livre' => $id_livre));
+        $res = $requ->fetchAll();
+        $ret = false;
+        if (!empty($res)){
+            $ret = true;
+        }
+        return $ret;
     }
 
 }

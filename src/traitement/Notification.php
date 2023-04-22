@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../bdd/bdd.php';
-require_once 'src/traitement/Emprunt.php';
+require_once 'src/traitement/EmpruntController.php';
 
 class Notification
 {
@@ -42,7 +42,7 @@ class Notification
             }
         }
         if (!empty($b)) {
-            $em = new Emprunt();
+            $em = new EmpruntController();
             foreach ($b as $item) {
                 $id_ex = $em->getExemplaire($item);
                 $rr = $bdd->b->prepare("SELECT * FROM notification_perso WHERE ref_exemplaire = :ref");

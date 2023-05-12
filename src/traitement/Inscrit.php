@@ -14,6 +14,7 @@ class Inscrit
     private $id;
 
 
+
     /**
      * @return mixed
      */
@@ -163,6 +164,16 @@ class Inscrit
 
     public function __construct()
     {
+    }
+
+    public function hydrate(array $tablo){
+        foreach ($tablo as $key => $donne){
+            $method = 'set'.$key;
+            if (method_exists($this, $method)){
+                $this->$method($donne);
+            }
+
+        }
     }
 
 

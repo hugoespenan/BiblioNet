@@ -13,6 +13,7 @@
 <div class="container">
     <?php
     include("adminpage1.php");
+    require_once ("src/traitement/Inscrit.php")
     ?>
 </div>
 <div class="container">
@@ -54,6 +55,7 @@
 
                             <?php
                             $admin = new Admin();
+                            $tableau_id=[];
                             $resultat = $admin->listerInscrit();
                             foreach ($resultat as $lesInscrits) {
                                 $iduser = $lesInscrits['id_inscrit'];
@@ -167,6 +169,10 @@
                             }
 
                             if (isset($_POST['edituser'])) {
+                                $iduser =$_POST['edituser'];
+
+
+
 
                                 ?>
                                 <div class="modal-dialog" role="document">
@@ -237,11 +243,37 @@
                                 <?php
                                 var_dump($_POST['edituser']);
                             }
+
+                            if (isset($_POST['newnom'])){
+                                $admin->modifierNom($_POST['newnom'],$iduser);
+                            }
+                            if (isset($_POST['newprenom'])){
+                                $admin->modifierPrenom($iduser,$_POST['newprenom']);
+                            }
+                            if (isset($_POST['newemail'])){
+                                $admin->modifierMail($iduser,$_POST['newemail']);
+                            }
+                            if (isset($_POST['newtel_portable'])){
+                                $admin->modifierTel($iduser,$_POST['newtel_portable']);
+                            }
+
+                            if (isset($_POST['newrue'])){
+                                $admin->modifierRue($iduser,$_POST['newrue']);
+                            }
+                            if (isset($_POST['newcp'])){
+                                $admin->modifierCP($iduser,$_POST['newcp']);
+                            }
+                            if (isset($_POST['newville'])){
+                                $admin->modifierVille($iduser,$_POST['newville']);
+                            }
+
+
+                            /*
                             if (isset($_POST['modifi'])) {
                                 //if (!empty(!$_POST['newtitre']) AND !empty(!$_POST['newannee']) AND !empty(!$_POST['newresume']) AND !empty(!$_POST['newimage'])){
                                 $admin->modifierUtilisateur($iduser, $_POST['newnom'], $_POST['newprenom'], $_POST['newemail'], $_POST['newtel_portable'],$_POST['newrue'],$_POST['newcp'],$_POST['newville']);
 
-                            }
+                            }*/
                             ?>
                         </table>
                     </form>

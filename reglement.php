@@ -57,15 +57,15 @@ include("src/vue/header.php");
         <div class="panel panel-warning panel1">
             <div class="panel-body">
                 <div id="reglement_ecrire">
-                    <h2>Regles de pret</h2>
+                    <h2>Règles de pret</h2>
                     <ul>
-                        <li>Tout adhérent a le droit d’emprunter 1 à 10 emprunts  des collections de la Bibliothèque pendant 8 jours ouvrables en plus d’un document de la Section romans .</li>
+                        <li>Tout adhérent a le droit d’emprunter 1 à 10 exemplaires des collections de la Bibliothèque pendant 8 jours ouvrables en plus d’un document de la section romans .</li>
                         <li>La bibliothèque se réserve le droit d’exclure certains documents du prêt.</li>
                         <li>Tout retard sera sanctionné !</li>
                         <li>Tout document perdu ou abimé devra être remplacé ou remboursé.</li>
                     </ul>
 
-                    <h2>Modalité de prêt</h2>
+                    <h2>Modalités de prêt</h2>
                     <ul>
                         <li>Pour toute opération de prêt, il faudra présenter une carte qui nous permettra de vous identifiez</li>
                         <li>La carte sera récupérée une fois le livre rendu.</li>

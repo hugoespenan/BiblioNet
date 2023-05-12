@@ -264,7 +264,7 @@
                             if (!empty($_POST['newville'])) {
                                 $admin->modifierVille($_SESSION['empla'], $_POST['newville']);
                             }
-                            
+
 
 
                             ?>

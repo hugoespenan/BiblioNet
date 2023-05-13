@@ -170,77 +170,91 @@
 
                             if (isset($_POST['edituser'])) {
                                 $empla = $_POST['edituser'];
-                                $_SESSION['empla']=$empla;
+                                $_SESSION['empla'] = $empla;
                                 var_dump($empla);
+                                $admin = new Admin();
+                                $tableau_id = [];
+                                $resultat = $admin->listerSelectedInscrit($_POST['edituser']);
 
+                                foreach ($resultat as $resSelected) {
 
-                                ?>
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ajout Utilisateurs </h5>
-                                            <button type="submit" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <form>
-                                                        <div class="col-md-6">
-                                                            <label for="exampleFormControlInput1">Nom</label>
-                                                            <input type="text" class="form-control"
-                                                                   name="newnom">
-                                                        </div>
+                                    ?>
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modification
+                                                    Utilisateurs </h5>
+                                                <button type="submit" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <form method="post">
+                                                            <div class="col-md-6">
+                                                                <label for="exampleFormControlInput1">Nom</label>
+                                                                <input type="text" class="form-control"
+                                                                       name="newnom"
+                                                                       placeholder=<?= $resSelected['nom'] ?>>
+                                                            </div>
 
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Prenom</label>
-                                                            <input type="text" class="form-control"
-                                                                   name="newprenom">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="exampleFormControlInput1">Email</label>
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="test@test.fr"
-                                                                   name="newemail">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Telephone</label>
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="0123456789"
-                                                                   name="newtel_portable">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="exampleFormControlInput1">Adresse</label>
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="11 Avenue de Victor Hugo"
-                                                                   name="newrue">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlInput1">Cp</label>
-                                                            <input type="text" class="form-control" placeholder="75300"
-                                                                   name="newcp">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label for="exampleFormControlInput1">Ville</label>
-                                                            <input type="text" class="form-control" placeholder="Paris"
-                                                                   name="newville">
-                                                        </div>
-                                                    </form>
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlInput1">Prenom</label>
+                                                                <input type="text" class="form-control"
+                                                                       name="newprenom"
+                                                                       placeholder=<?= $resSelected['prenom'] ?>>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="exampleFormControlInput1">Email</label>
+                                                                <input type="email" class="form-control"
+                                                                       name="newemail"
+                                                                       placeholder=<?= $resSelected['email'] ?>>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlInput1">Telephone</label>
+                                                                <input type="text" class="form-control"
+                                                                       name="newtel_portable"
+                                                                       placeholder=<?= $resSelected['tel_portable'] ?>>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="exampleFormControlInput1">Adresse</label>
+                                                                <input type="text" class="form-control"
+                                                                       name="newrue"
+                                                                       placeholder=<?= $resSelected['rue'] ?>>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlInput1">Cp</label>
+                                                                <input type="text" class="form-control"
+                                                                       name="newcp"
+                                                                       placeholder=<?= $resSelected['cp'] ?>>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label for="exampleFormControlInput1">Ville</label>
+                                                                <input type="text" class="form-control"
+                                                                       name="newville"
+                                                                       placeholder=<?= $resSelected['ville'] ?>>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-outline-dark" data-dismiss="modal">
-                                                Annuler
-                                            </button>
-                                            <button type="submit" name="modifi" class="btn btn-outline-primary">
-                                                Modifier
-                                            </button>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-outline-dark" data-dismiss="modal">
+                                                    Annuler
+                                                </button>
+                                                <button type="submit" name="modifuser" class="btn btn-outline-primary">
+                                                    Modifier
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
                                 <?php
+
+
+                                }
                             }
 
                             if (!empty($_POST['newnom'])) {
@@ -264,7 +278,6 @@
                             if (!empty($_POST['newville'])) {
                                 $admin->modifierVille($_SESSION['empla'], $_POST['newville']);
                             }
-
 
 
                             ?>

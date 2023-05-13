@@ -1,5 +1,6 @@
 <?php
 
+include ("Livre.php");
 class Admin
 {
 
@@ -10,10 +11,8 @@ class Admin
     private $id;
 
 
-
-
-
-    public function listerInscrit(){
+    public function listerInscrit()
+    {
         $cobdd = new bdd ("biblionet", "localhost", "", "root");
         $c = $cobdd->b->query("SELECT * FROM inscrit ");
 
@@ -23,8 +22,6 @@ class Admin
 
         return $inscrit;
     }
-
-
 
 
     public function connexion($email, $mdp)
@@ -43,6 +40,20 @@ class Admin
 
 
         }
+    }
+
+
+    public function listerSelectedInscrit($id)
+    {
+        $cobdd = new bdd ("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("SELECT * FROM inscrit WHERE id_inscrit = :id");
+        $c->execute(array('id' => $id));
+
+        while ($data = $c->fetch()) {
+            $inscrit[] = $data;
+        }
+
+        return $inscrit;
     }
 
     public function listerEmprunt()
@@ -97,7 +108,7 @@ class Admin
         }
     }
 
-    public function ajoutLivre ($titre, $annee, $resume, $image)
+    public function ajoutLivre($titre, $annee, $resume, $image)
     {
         $cobdd = new bdd("biblionet", "localhost", "", "root");
         $c = $cobdd->b->prepare("SELECT COUNT(*) FROM livre WHERE titre=:titre AND annee=:annee");
@@ -106,7 +117,7 @@ class Admin
             'annee' => $annee
         ));
         $result = $c->fetchColumn();
-        if($result == 0) {
+        if ($result == 0) {
             $c = $cobdd->b->prepare("INSERT INTO livre (titre,annee,resume,image) VALUES (:titre, :annee, :resume, :image)");
             $c->execute(array(
                 'titre' => $titre,
@@ -119,83 +130,139 @@ class Admin
     }
 
 
-    public function modifierLivre($id_livre, $titre, $annee, $resume, $image)
+    public function modifierLivre($id_livre, $titre, $annee, $resume)
     {
         $cobdd = new bdd("biblionet", "localhost", "", "root");
-            $c = $cobdd->b->prepare("UPDATE livre SET titre=:titre, annee=:annee, resume=:resume, image=:image WHERE id_livre=:id_livre");
+        $c = $cobdd->b->prepare("UPDATE livre SET titre=:titre, annee=:annee, resume=:resume WHERE id_livre=:id_livre");
         $c->execute(array(
             'id_livre' => $id_livre,
             'titre' => $titre,
             'annee' => $annee,
             'resume' => $resume,
-            'image' => $image
         ));
     }
 
 
-    public function modifierNom($nom,$id){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
+    public function selectLivre($id_livre){
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("SELECT * FROM livre WHERE id_livre=:id_livre");
+        $c->execute(array(
+            'id_livre' => $id_livre));
+
+        $livre = new Livre();
+        while ($data = $c->fetch()) {
+            $livre->hydrate($data);
+            $livre->setTitre($data['titre']);
+            $livre->setResume($data['resume']);
+            $livre->setAnnee($data['annee']);
+        }
+
+        return $livre;
+    }
+
+    public function modifierNom($nom, $id)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
         $c = $cobdd->b->prepare("UPDATE inscrit SET nom=:nom WHERE id_inscrit=:id;");
         $c->execute(array(
-                'nom'=> $nom,
-            'id' =>$id
+            'nom' => $nom,
+            'id' => $id
         ));
-    }
-    public function modifierPrenom($iduser,$prenom){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("UPDATE inscrit SET prenom=:prenom WHERE id_inscrit=:iduser;");
-        $c->execute(array(
-                'prenom' =>$prenom,
-            'iduser' =>$iduser
-        ));
-    }
-    public function modifierMail($iduser,$mail){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("UPDATE inscrit SET mail=:mail WHERE id_inscrit=:iduser;");
-        $c->execute(array(
-            'mail' =>$mail,
-            'iduser' =>$iduser
-        ));
-    }
-    public function modifierTel($iduser, $tel){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("UPDATE inscrit SET tel_portable=:tel WHERE id_inscrit=:iduser;");
-        $c->execute(array(
-            'tel' =>$tel,
-            'iduser' =>$iduser
-        ));
-    }
-    public function modifierRue($iduser, $rue){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("UPDATE inscrit SET rue=:rue WHERE id_inscrit=:iduser;");
-        $c->execute(array(
-            'rue' =>$rue,
-            'iduser' =>$iduser
-        ));
-    }
-    public function modifierCP($iduser, $cp){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("UPDATE inscrit SET cp=:cp WHERE id_inscrit=:iduser;");
-        $c->execute(array(
-            'cp' =>$cp,
-            'iduser' =>$iduser
-        ));
-    }
-    public function modifierVille($iduser, $ville){
-        $cobdd =new bdd("biblionet", "localhost", "", "root");
-        $c = $cobdd->b->prepare("UPDATE inscrit SET ville=:ville WHERE id_inscrit=:iduser;");
-        $c->execute(array(
-            'ville' =>$ville,
-            'iduser' =>$iduser
-        ));
+        ?>
+        <div class="alert alert-success" role="alert">
+            Le nom de l'utilisateur a été modifier !
+        </div><?php
     }
 
+    public function modifierPrenom($iduser, $prenom)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET prenom=:prenom WHERE id_inscrit=:iduser;");
+        $c->execute(array(
+            'prenom' => $prenom,
+            'iduser' => $iduser
+        ));
+        ?>
+        <div class="alert alert-success" role="alert">
+            Le prenom de l'utilisateur a été modifier !
+        </div><?php
+    }
+
+    public function modifierMail($iduser, $mail)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET mail=:mail WHERE id_inscrit=:iduser;");
+        $c->execute(array(
+            'mail' => $mail,
+            'iduser' => $iduser
+        ));
+        ?>
+        <div class="alert alert-success" role="alert">
+            Le mail de l'utilisateur a été modifier !
+        </div><?php
+    }
+
+    public function modifierTel($iduser, $tel)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET tel_portable=:tel WHERE id_inscrit=:iduser;");
+        $c->execute(array(
+            'tel' => $tel,
+            'iduser' => $iduser
+        ));
+        ?>
+        <div class="alert alert-success" role="alert">
+            Le téléphone de l'utilisateur a été modifier !
+        </div><?php
+    }
+
+    public function modifierRue($iduser, $rue)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET rue=:rue WHERE id_inscrit=:iduser;");
+        $c->execute(array(
+            'rue' => $rue,
+            'iduser' => $iduser
+        ));
+        ?>
+        <div class="alert alert-success" role="alert">
+            L'adresse de l'utilisateur a été modifier !
+        </div><?php
+    }
+
+    public function modifierCP($iduser, $cp)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET cp=:cp WHERE id_inscrit=:iduser;");
+        $c->execute(array(
+            'cp' => $cp,
+            'iduser' => $iduser
+        ));
+        ?>
+        <div class="alert alert-success" role="alert">
+            Le code postale de l'utilisateur a été modifier !
+        </div><?php
+
+    }
+
+    public function modifierVille($iduser, $ville)
+    {
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
+        $c = $cobdd->b->prepare("UPDATE inscrit SET ville=:ville WHERE id_inscrit=:iduser;");
+        $c->execute(array(
+            'ville' => $ville,
+            'iduser' => $iduser
+        )); ?>
+        <div class="alert alert-success" role="alert">
+            La ville de l'utilisateur a été modifier !
+        </div><?php
+    }
 
 
     public function modifierUtilisateur($id_inscrit, $nom, $prenom, $email, $tel_portable, $rue, $cp, $ville)
     {
 
-$cobdd =new bdd("biblionet", "localhost", "", "root");
+        $cobdd = new bdd("biblionet", "localhost", "", "root");
         $c = $cobdd->b->prepare("UPDATE inscrit SET nom=:nom, prenom=:prenom, email=:email, tel_portable=:tel_portable, rue=:rue, cp=:cp, ville=:ville WHERE id_inscrit=:id_inscrit");
         $c->execute(array(
             'id_inscrit' => $id_inscrit,
@@ -209,22 +276,22 @@ $cobdd =new bdd("biblionet", "localhost", "", "root");
         ));
     }
 
-    public function supprimerLivre($id_livre){
+    public function supprimerLivre($id_livre)
+    {
 
         $cobdd = new bdd("biblionet", "localhost", "", "root");
         $c = $cobdd->b->prepare("DELETE FROM livre WHERE id_livre = $id_livre");
         $c->execute();
 
 
-
     }
 
-    public function supprimerUser($id_inscrit){
+    public function supprimerUser($id_inscrit)
+    {
 
         $cobdd = new bdd("biblionet", "localhost", "", "root");
         $c = $cobdd->b->prepare("DELETE FROM inscrit WHERE id_inscrit = $id_inscrit");
         $c->execute();
-
 
 
     }

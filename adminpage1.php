@@ -30,7 +30,7 @@ include("src/traitement/Admin.php");
         <div class="col-lg-7">
             <nav class="header__menu">
 
-                <h3>Gestion d'utilisateurs</h3>
+                <h3>Tableau de bord - Administrateurs</h3>
 
             </nav>
         </div>

@@ -132,6 +132,8 @@
 
                             if (isset($_POST['editbook'])) {
 
+
+
                                 ?>
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -145,21 +147,17 @@
                                             <form method="post">
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">Nouveau Titre</label>
-                                                    <input type="text" class="form-control"
-                                                           placeholder="ex: Harry Potter" name="newtitre">
+                                                    <input type="text" name="newtitre" class="form-control">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleFormControlInput1">Nouvelle Annee</label>
-                                                    <input type="text" class="form-control" placeholder="ex: 1997"
+                                                    <input type="text" class="form-control"
                                                            name="newannee">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="exampleFormControlTextarea1">Nouveau Resume</label>
-                                                    <textarea class="form-control" placeholder="Il était une fois..."
+                                                    <textarea class="form-control"
                                                               name="newresume"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="file" name="newimage" class="form-control-file">
                                                 </div>
 
                                             </form>
@@ -175,11 +173,10 @@
                                     </div>
                                 </div>
                                 <?php
-
                             }
                             if (isset($_POST['modifi'])) {
                                 //if (!empty(!$_POST['newtitre']) AND !empty(!$_POST['newannee']) AND !empty(!$_POST['newresume']) AND !empty(!$_POST['newimage'])){
-                                $admin->modifierLivre($iddulivre, $_POST['newtitre'], $_POST['newannee'], $_POST['newresume'], $_POST['newimage']);
+                                $admin->modifierLivre($iddulivre, $_POST['newtitre'], $_POST['newannee'], $_POST['newresume']);
 
                             }
                             ?>
